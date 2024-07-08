@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,11 +12,15 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 })
 export default class LoginComponent {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
   formData = {
     email: '',
     password: '',
   };
+
+  navigateToCreateRoute() {
+    this.router.navigate(['/createRoute']);
+  }
 
   login() {
     // Intento de login con las credenciales del formulario
@@ -28,6 +33,8 @@ export default class LoginComponent {
 
         // Guarda el token en localStorage
         localStorage.setItem('user', JSON.stringify(loginResponse.token));
+
+        this.navigateToCreateRoute()
       },
       error => {
         console.error('Error al iniciar sesión:', error);

@@ -22,9 +22,17 @@ export const routes: Routes = [
         
         ]
     },
+
     {
-        path: '',
+        path: 'createRoute',
+        loadComponent: () => import('./Route/create-route/create-route.component'),
+        children: [
+        
+        ]
+    },
+    {
+        path: '**',
         redirectTo: '/dashboard',
         pathMatch: 'full'
-    }
+    },
 ];

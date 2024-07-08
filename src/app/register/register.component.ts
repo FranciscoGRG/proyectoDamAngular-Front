@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -12,13 +13,17 @@ import { FormsModule } from '@angular/forms';
 })
 export default class RegisterComponent {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   formData = {
     name: '',
     email: '',
     password: '',
   };
+
+  navigateToCreateRoute() {
+    this.router.navigate(['/createRoute']);
+  }
 
 
   register() {
@@ -53,6 +58,7 @@ export default class RegisterComponent {
 
         // Guarda el token en localStorage
         localStorage.setItem('user', JSON.stringify(loginResponse.token));
+        this.navigateToCreateRoute()
       },
       error => {
         console.error('Error al iniciar sesión:', error);
