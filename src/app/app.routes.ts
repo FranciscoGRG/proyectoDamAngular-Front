@@ -22,10 +22,23 @@ export const routes: Routes = [
         
         ]
     },
-
     {
         path: 'createRoute',
         loadComponent: () => import('./Route/create-route/create-route.component'),
+        children: [
+        
+        ]
+    },
+    {
+        path: 'getRoutes',
+        loadComponent: () => import('./Route/show-route/show-route.component'),
+        children: [
+        
+        ]
+    },
+    {
+        path: 'getCreatedRoutes',
+        loadComponent: () => import('./Route/show-createdroute/show-createdroute.component'),
         children: [
         
         ]

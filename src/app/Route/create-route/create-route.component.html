@@ -1,66 +1,81 @@
 <form #createRouteForm="ngForm" class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg grid grid-cols-2 gap-6">
-    <div class="col-span-2">
-      <label for="title" class="block text-sm font-medium text-gray-700">Title:</label>
-      <input id="title" name="title" required [(ngModel)]="formData.title" type="text" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-    </div>
-  
-    <div class="col-span-2">
-      <label for="description" class="block text-sm font-medium text-gray-700">Description:</label>
-      <textarea id="description" name="description" required [(ngModel)]="formData.description" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
-    </div>
-  
-    <div>
-      <label for="distance" class="block text-sm font-medium text-gray-700">Distance:</label>
-      <input id="distance" name="distance" required [(ngModel)]="formData.distance" type="number" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-    </div>
-  
-    <div>
-      <label for="unevenness" class="block text-sm font-medium text-gray-700">Unevenness:</label>
-      <input id="unevenness" name="unevenness" required [(ngModel)]="formData.unevenness" type="number" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-    </div>
-  
-    <div>
-      <label for="difficulty" class="block text-sm font-medium text-gray-700">Difficulty:</label>
-      <input id="difficulty" name="difficulty" required [(ngModel)]="formData.difficulty" type="text" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-    </div>
-  
-    <div>
-      <label for="mapsIFrame" class="block text-sm font-medium text-gray-700">Maps IFrame:</label>
-      <input id="mapsIFrame" name="mapsIFrame" required [(ngModel)]="formData.mapsIFrame" type="text" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-    </div>
-  
-    <div>
-      <label for="location" class="block text-sm font-medium text-gray-700">Location:</label>
-      <input id="location" name="location" required [(ngModel)]="formData.location" type="text" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-    </div>
-  
-    <div>
-      <label for="imagen" class="block text-sm font-medium text-gray-700">Image:</label>
-      <input id="imagen" name="imagen" required [(ngModel)]="formData.imagen" type="text" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-    </div>
-  
-    <div>
-      <label for="fecha" class="block text-sm font-medium text-gray-700">Date:</label>
-      <input id="fecha" name="fecha" required [(ngModel)]="formData.fecha" type="date" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-    </div>
-  
-    <div>
-      <label for="hora" class="block text-sm font-medium text-gray-700">Time:</label>
-      <input id="hora" name="hora" required [(ngModel)]="formData.hora" type="time" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-    </div>
-  
-    <div class="col-span-2">
-      <label for="category" class="block text-sm font-medium text-gray-700">Category:</label>
-      <select id="category" name="category" required [(ngModel)]="formData.category" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-        <option value="Carretera">Carretera</option>
-        <option value="Montaña">Montaña</option>
-        <option value="Trial">Trial</option>
-        <option value="Cicloturismo">Cicloturismo</option>
-      </select>
-    </div>
-  
-    <div class="col-span-2">
-      <button type="button" (click)="createRoute()" class="w-full py-2 px-4 bg-indigo-600 text-white font-medium rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Submit</button>
-    </div>
-  </form>
-  
+  <div class="col-span-2">
+    <label for="title" class="block text-sm font-medium text-gray-700">Título:</label>
+    <input id="title" name="title" required [(ngModel)]="formData.title" type="text"
+      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+  </div>
+
+  <div class="col-span-2">
+    <label for="description" class="block text-sm font-medium text-gray-700">Descripción:</label>
+    <textarea id="description" name="description" required [(ngModel)]="formData.description"
+      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+  </div>
+
+  <div>
+    <label for="distance" class="block text-sm font-medium text-gray-700">Distancia:</label>
+    <input id="distance" name="distance" required [(ngModel)]="formData.distance" type="number"
+      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+  </div>
+
+  <div>
+    <label for="unevenness" class="block text-sm font-medium text-gray-700">Desnivel:</label>
+    <input id="unevenness" name="unevenness" required [(ngModel)]="formData.unevenness" type="number"
+      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+  </div>
+
+  <div>
+    <label for="difficulty" class="block text-sm font-medium text-gray-700">Dificultad:</label>
+    <select id="difficulty" name="difficulty" required [(ngModel)]="formData.difficulty"
+      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+      <option value="Principiante">Principiante</option>
+      <option value="Intermedio">Intermedio</option>
+      <option value="Experto">Experto</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="mapsIFrame" class="block text-sm font-medium text-gray-700">Maps IFrame:</label>
+    <input id="mapsIFrame" name="mapsIFrame" required [(ngModel)]="formData.mapsIFrame" type="text"
+      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+  </div>
+
+  <div>
+    <label for="location" class="block text-sm font-medium text-gray-700">Localización:</label>
+    <input id="location" name="location" required [(ngModel)]="formData.location" type="text"
+      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+  </div>
+
+  <div>
+    <label for="imagen" class="block text-sm font-medium text-gray-700">Imagen:</label>
+    <input id="imagen" name="imagen" required [(ngModel)]="formData.imagen" type="text"
+      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+  </div>
+
+  <div>
+    <label for="fecha" class="block text-sm font-medium text-gray-700">Fecha:</label>
+    <input id="fecha" name="fecha" required [(ngModel)]="formData.fecha" type="date"
+      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+  </div>
+
+  <div>
+    <label for="hora" class="block text-sm font-medium text-gray-700">Hora:</label>
+    <input id="hora" name="hora" required [(ngModel)]="formData.hora" type="time"
+      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+  </div>
+
+  <div class="col-span-2">
+    <label for="category" class="block text-sm font-medium text-gray-700">Categoría:</label>
+    <select id="category" name="category" required [(ngModel)]="formData.category"
+      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+      <option value="Carretera">Carretera</option>
+      <option value="Montaña">Montaña</option>
+      <option value="Trial">Trial</option>
+      <option value="Cicloturismo">Cicloturismo</option>
+    </select>
+  </div>
+
+  <div class="col-span-2">
+    <button type="button" (click)="createRoute()"
+      class="w-full py-2 px-4 bg-indigo-600 text-white font-medium rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Submit</button>
+  </div>
+</form>
