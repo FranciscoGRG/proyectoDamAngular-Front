@@ -1,3 +1,115 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Imagenes */
+img {
+    user-select: none;
+}
+
+/* Botones */
+button {
+    /* Establece la transición para la transformación */
+    transition: transform 0.3s ease;
+}
+
+button:hover {
+    /* Aumenta el tamaño del elemento en un factor de 1.5 */
+    transform: scale(1.1);
+}
+
+/* Barra de Navegacion */
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.493);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #5a5a5a2a;
+}
+
+/* Boton explorar rutas */
+.fancy {
+    background-color: transparent;
+    border: 2px solid #fff;
+    border-radius: 0;
+    box-sizing: border-box;
+    color: #000;
+    cursor: pointer;
+    display: inline-block;
+    float: right;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin: 0;
+    outline: none;
+    overflow: visible;
+    padding: 1.25em 2em;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    text-transform: none;
+    transition: all 0.3s ease-in-out;
+    user-select: none;
+    font-size: 13px;
+}
+
+.fancy::before {
+    content: " ";
+    width: 1.5625rem;
+    height: 2px;
+    background: white;
+    top: 50%;
+    left: 1.5em;
+    position: absolute;
+    transform: translateY(-50%);
+    transform-origin: center;
+    transition: background 0.3s linear, width 0.3s linear;
+}
+
+.fancy .text {
+    font-size: 1.125em;
+    line-height: 1.33333em;
+    padding-left: 2em;
+    display: block;
+    text-align: left;
+    transition: all 0.3s ease-in-out;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+}
+
+
+
+.fancy:hover {
+    color: black;
+    background: white;
+}
+
+.fancy:hover::before {
+    width: 0.9375rem;
+    background: black;
+}
+
+.fancy:hover .text {
+    color: black;
+    padding-left: 1.5em;
+}
+
+.fancy:hover .top-key {
+    left: -2px;
+    width: 0px;
+}
+
+.fancy:hover .bottom-key-1,
+.fancy:hover .bottom-key-2 {
+    right: 0;
+    width: 0;
+}
+
+/* Texto Explorar rutas */
+.text {
+    font-weight: 600;
+    color: #AAAAAA;
+    font-size: medium;
+  }

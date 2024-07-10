@@ -33,6 +33,9 @@
            {{ route.mapsIFrame }}
           </div>
         </div>
+        <div>
+          <button class="bg-slate-400" (click)="participar(route.id)">Participar</button>
+        </div>
       </li>
     </ul>
     <ng-template #noRoutes>
