@@ -44,6 +44,13 @@ export const routes: Routes = [
         ]
     },
     {
+        path: 'joinedRoutes',
+        loadComponent: () => import('./Route/joined-routes/joined-routes.component'),
+        children: [
+        
+        ]
+    },
+    {
         path: '**',
         redirectTo: '/dashboard',
         pathMatch: 'full'

@@ -32,6 +32,21 @@ export default class CreateRouteComponent {
     const storedUser = localStorage.getItem('user');
     const token = storedUser ? JSON.parse(storedUser) : null;
 
+    // Variable que contiene el iframe
+    // let mapsIframe = '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d12597.198956814289!2d-4.796167676672617!3d37.87667240135537!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2ses!4v1720705259736!5m2!1ses!2ses" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
+
+    // Expresión regular para extraer el valor del atributo src
+    let regex = /src="([^"]*)"/;
+
+    // Ejecutar la expresión regular en la cadena
+    let match = this.formData.mapsIFrame.match(regex);
+
+    // Guardar el enlace en una nueva variable si hay coincidencia
+    let enlace = match ? match[1] : null;
+
+    console.log(enlace);
+
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -42,7 +57,7 @@ export default class CreateRouteComponent {
       distance: this.formData.distance,
       unevenness: this.formData.unevenness,
       difficulty: this.formData.difficulty,
-      mapsIFrame: this.formData.mapsIFrame,
+      mapsIFrame: enlace,
       location: this.formData.location,
       imagen: this.formData.imagen,
       fecha: this.formData.fecha,

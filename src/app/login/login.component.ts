@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthService } from '../Services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export default class LoginComponent {
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
   formData = {
     email: '',
     password: '',
@@ -32,7 +33,11 @@ export default class LoginComponent {
         console.log('Usuario logueado:', loginResponse);
 
         // Guarda el token en localStorage
-        localStorage.setItem('user', JSON.stringify(loginResponse.token));
+        // localStorage.setItem('user', JSON.stringify(loginResponse.token));
+        this.authService.logIn(loginResponse.token); // Envia el token al authService para guardarlo en el local storage y manejarlo durante la sesión activa.
+
+        // Redirecciona al formulario de creación de rutas
+        this.router.navigate(['/createRoute']);
 
         this.navigateToCreateRoute()
       },

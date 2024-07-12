@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common'; // Importar CommonModule
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 
 @Component({
@@ -14,7 +15,7 @@ export default class ShowRouteComponent implements OnInit {
 
   routes: any[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.fetchRoutes();
@@ -56,6 +57,34 @@ export default class ShowRouteComponent implements OnInit {
       },
       error => {
         console.error('Error al inscribirse en la ruta:', error);
+        alert('Error al inscribirse en la ruta')
+      }
+    );
+  }
+
+  like(ruta_id: number) {
+    console.log(ruta_id)
+
+    const storedUser = localStorage.getItem('user');
+    const token = storedUser ? JSON.parse(storedUser) : null;
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    // Registro del usuario
+    this.http.post('http://localhost/proyectoDamAngular-BACK/public/api/darLike', {
+      ruta_id: ruta_id
+    }, {
+      headers: headers,
+      withCredentials: true // Habilita el envío de credenciales
+    }).subscribe(
+      (registerResponse: any) => {
+        console.log( registerResponse);
+        alert('Le has dado like')
+      },
+      error => {
+        console.error('Error al dar like:', error);
         alert('Error al inscribirse en la ruta')
       }
     );
