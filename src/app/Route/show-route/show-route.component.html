@@ -33,12 +33,12 @@
         <div class="md:w-1/3 mt-4 md:mt-0 md:ml-6">
           <img [src]="route.imagen" alt="{{ route.title }}" class="w-full h-auto rounded-lg">
           <div class="mt-4">
-           <!-- {{ route.mapsIFrame }} -->
-             <iframe class="rounded-lg w-96 h-96" [src]="route.mapsIFrame" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+           <!-- {{ route.mapsIFrame }} route.mapsIFrame -->
+             <iframe class="rounded-lg w-96 h-96" [src]="" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
         </div>
         <div>
-          <button class="bg-slate-400" (click)="participar(route.id)">Participar</button>
+          <button class="bg-slate-400" (click)="participar(route.id, route.title, route.fecha, route.hora)">Participar</button>
         </div>
         <div>
           <button class="bg-red-500" (click)="like(route.id)">Like</button>
