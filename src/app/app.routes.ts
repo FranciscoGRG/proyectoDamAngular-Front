@@ -51,6 +51,13 @@ export const routes: Routes = [
         ]
     },
     {
+        path: 'updateProfileImage',
+        loadComponent: () => import('./Profile/update-image/update-image.component'),
+        children: [
+        
+        ]
+    },
+    {
         path: '**',
         redirectTo: '/dashboard',
         pathMatch: 'full'

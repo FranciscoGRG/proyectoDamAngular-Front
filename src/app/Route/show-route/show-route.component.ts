@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common'; // Importar CommonModule
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'; // Importar DomSanitizer
 import { AuthService } from '../../Services/auth.service';
 
 
@@ -27,7 +27,10 @@ export default class ShowRouteComponent implements OnInit {
     this.http.get('http://localhost/proyectoDamAngular-BACK/public/api/getRoutes')
       .subscribe(
         (data: any) => {
-          this.routes = data;
+          this.routes = data.map((route: { mapsIFrame: string; }) => ({
+            ...route,
+            safeMapsIFrame: this.sanitizer.bypassSecurityTrustResourceUrl(route.mapsIFrame) // Sanitizar URL
+          }));
           console.log('Rutas obtenidas:', this.routes);
         },
         error => {

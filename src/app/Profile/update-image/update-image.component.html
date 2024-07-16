@@ -1,0 +1,9 @@
+<form>
+    <label for="imagen">Seleccione una imagen</label>
+    <br>
+    <input type="file" name="imagen" id="imagen" required (change)="onFileChange($event)">
+    <br>
+    <button type="button" (click)="actualizarImagen()">
+        Actualizar imagen
+    </button>
+</form>

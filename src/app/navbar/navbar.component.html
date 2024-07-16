@@ -10,7 +10,7 @@
                 id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
                 data-dropdown-placement="bottom">
                 <span class="sr-only">Open user menu</span>
-                <img class="w-8 h-8 rounded-full" src="src\assets\coche.jpg" alt="user photo">
+                <img class="w-8 h-8 rounded-full" [src]="'http://localhost/proyectoDamAngular-BACK/public/storage/profile_images/' + user.profile_image" alt="user photo">
             </button>
 
             <!-- Dropdown menu -->

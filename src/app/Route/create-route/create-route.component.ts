@@ -21,7 +21,7 @@ export default class CreateRouteComponent {
     difficulty: '',
     mapsIFrame: '',
     location: '',
-    imagen: '',
+    imagenes: [],
     fecha: '',
     hora: '',
     category: '',
@@ -32,9 +32,6 @@ export default class CreateRouteComponent {
     const storedUser = localStorage.getItem('user');
     const token = storedUser ? JSON.parse(storedUser) : null;
 
-    // Variable que contiene el iframe
-    // let mapsIframe = '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d12597.198956814289!2d-4.796167676672617!3d37.87667240135537!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2ses!4v1720705259736!5m2!1ses!2ses" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
-
     // Expresión regular para extraer el valor del atributo src
     let regex = /src="([^"]*)"/;
 
@@ -42,28 +39,33 @@ export default class CreateRouteComponent {
     let match = this.formData.mapsIFrame.match(regex);
 
     // Guardar el enlace en una nueva variable si hay coincidencia
-    let enlace = match ? match[1] : null;
-
-    console.log(enlace);
-
+    let enlace = match ? match[1] : "";
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
 
-    this.http.post('http://localhost/proyectoDamAngular-BACK/public/api/createRoute', {
-      title: this.formData.title,
-      description: this.formData.description,
-      distance: this.formData.distance,
-      unevenness: this.formData.unevenness,
-      difficulty: this.formData.difficulty,
-      mapsIFrame: enlace,
-      location: this.formData.location,
-      imagen: this.formData.imagen,
-      fecha: this.formData.fecha,
-      hora: this.formData.hora,
-      category: this.formData.category,
-    }, {
+    const formData = new FormData();
+    formData.append('title', this.formData.title);
+    formData.append('description', this.formData.description);
+    formData.append('distance', this.formData.distance);
+    formData.append('unevenness', this.formData.unevenness);
+    formData.append('difficulty', this.formData.difficulty);
+    formData.append('mapsIFrame', enlace);
+    formData.append('location', this.formData.location);
+    formData.append('fecha', this.formData.fecha);
+    formData.append('hora', this.formData.hora);
+    formData.append('category', this.formData.category);
+
+    // Seleccionar el elemento de input de archivos
+    const inputElement = document.getElementById('imagen') as HTMLInputElement;
+    if (inputElement && inputElement.files) {
+      Array.from(inputElement.files).forEach((file, index) => {
+        formData.append(`imagenes[${index}]`, file, file.name);
+      });
+    }
+
+    this.http.post('http://localhost/proyectoDamAngular-BACK/public/api/createRoute', formData, {
       headers: headers,
       withCredentials: true // Habilita el envío de credenciales
     }).subscribe(
