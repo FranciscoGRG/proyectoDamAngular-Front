@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common'; // Importar CommonModule
   templateUrl: './show-createdroute.component.html',
   styleUrl: './show-createdroute.component.css'
 })
-export default class ShowCreatedrouteComponent implements OnInit {
+export class ShowCreatedrouteComponent implements OnInit {
 
   routes: any[] = [];
 

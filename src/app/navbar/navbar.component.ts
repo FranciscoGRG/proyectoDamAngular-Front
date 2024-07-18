@@ -91,7 +91,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       .subscribe(
         (data: any) => {
           this.user = data;
-          console.log('User obtenido', this.user);
+          // console.log('User obtenido', this.user);
         },
         error => {
           console.error('Error al obtener el user:', error);

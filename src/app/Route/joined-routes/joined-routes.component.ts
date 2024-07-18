@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common'; // Importar CommonModule
   templateUrl: './joined-routes.component.html',
   styleUrl: './joined-routes.component.css'
 })
-export default class JoinedRoutesComponent implements OnInit {
+export class JoinedRoutesComponent implements OnInit {
 
   constructor(private http: HttpClient) { }
 

@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export default class DashboardComponent {
+export class DashboardComponent {
 
   constructor(private router: Router) { }
 

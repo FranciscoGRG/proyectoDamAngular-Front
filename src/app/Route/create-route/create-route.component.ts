@@ -9,7 +9,7 @@ import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http'
   templateUrl: './create-route.component.html',
   styleUrls: ['./create-route.component.css']
 })
-export default class CreateRouteComponent {
+export class CreateRouteComponent {
 
   constructor(private http: HttpClient) { }
 

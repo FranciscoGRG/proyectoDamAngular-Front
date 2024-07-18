@@ -3,59 +3,48 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
     {
         path: 'dashboard',
-        loadComponent: () => import('./dashboard/dashboard.component'),
-        children: [
-        
-        ]
+        loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent),
+        children: []
     },
     {
         path: 'login',
-        loadComponent: () => import('./login/login.component'),
-        children: [
-        
-        ]
+        loadComponent: () => import('./login/login.component').then(m => m.LoginComponent),
+        children: []
     },
     {
         path: 'register',
-        loadComponent: () => import('./register/register.component'),
-        children: [
-        
-        ]
+        loadComponent: () => import('./register/register.component').then(m => m.RegisterComponent),
+        children: []
     },
     {
         path: 'createRoute',
-        loadComponent: () => import('./Route/create-route/create-route.component'),
-        children: [
-        
-        ]
+        loadComponent: () => import('./Route/create-route/create-route.component').then(m => m.CreateRouteComponent),
+        children: []
     },
     {
         path: 'getRoutes',
-        loadComponent: () => import('./Route/show-route/show-route.component'),
-        children: [
-        
-        ]
+        loadComponent: () => import('./Route/show-route/show-route.component').then(m => m.ShowRouteComponent),
+        children: []
     },
     {
         path: 'getCreatedRoutes',
-        loadComponent: () => import('./Route/show-createdroute/show-createdroute.component'),
-        children: [
-        
-        ]
+        loadComponent: () => import('./Route/show-createdroute/show-createdroute.component').then(m => m.ShowCreatedrouteComponent),
+        children: []
     },
     {
         path: 'joinedRoutes',
-        loadComponent: () => import('./Route/joined-routes/joined-routes.component'),
-        children: [
-        
-        ]
+        loadComponent: () => import('./Route/joined-routes/joined-routes.component').then(m => m.JoinedRoutesComponent),
+        children: []
     },
     {
         path: 'updateProfileImage',
-        loadComponent: () => import('./Profile/update-image/update-image.component'),
-        children: [
-        
-        ]
+        loadComponent: () => import('./Profile/update-image/update-image.component').then(m => m.UpdateImageComponent),
+        children: []
+    },
+    {
+        path: 'showRouteDetails/:id',
+        loadComponent: () => import('./Route/show-route-details/show-route-details.component').then(m => m.ShowRouteDetailsComponent),
+        children: []
     },
     {
         path: '**',

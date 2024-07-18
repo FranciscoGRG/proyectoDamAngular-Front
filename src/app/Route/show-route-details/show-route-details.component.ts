@@ -1,43 +1,69 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'; // Importar
 import { CommonModule } from '@angular/common'; // Importar CommonModule
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'; // Importar DomSanitizer
 import { AuthService } from '../../Services/auth.service';
-import { Router } from '@angular/router';
-
-
 
 @Component({
-  selector: 'app-show-route',
+  selector: 'app-show-route-details',
   standalone: true,
   imports: [HttpClientModule, CommonModule],
-  templateUrl: './show-route.component.html',
-  styleUrl: './show-route.component.css'
+  templateUrl: './show-route-details.component.html',
+  styleUrl: './show-route-details.component.css'
 })
-export class ShowRouteComponent implements OnInit {
+export class ShowRouteDetailsComponent implements OnInit {
 
-  routes: any[] = [];
+  routeId: number | null = null;
   mensaje: string | null = null;
 
-  constructor(private router: Router, private http: HttpClient, private sanitizer: DomSanitizer, private cdr: ChangeDetectorRef, private authService: AuthService) { }
+  nParticipantes: number = 0;
+  routes: any = {};
 
-  ngOnInit() {
-    this.fetchRoutes();
+  constructor(private route: ActivatedRoute, private http: HttpClient, private sanitizer: DomSanitizer, private authService: AuthService) { }
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      const idParam = params.get('id');
+      if (idParam !== null) {
+        this.routeId = +idParam; // '+' convierte el valor de string a número
+      } else {
+        this.routeId = null; // O maneja el caso en que el parámetro es null
+      }
+      this.fetchRoutes()
+    });
   }
 
+
   fetchRoutes() {
-    this.http.get('http://localhost/proyectoDamAngular-BACK/public/api/getRoutes')
+    this.http.get(`http://localhost/proyectoDamAngular-BACK/public/api/numberParticipant/${this.routeId}`)
       .subscribe(
         (data: any) => {
-          this.routes = data.map((route: any) => ({
-            ...route,
-            safeMapsIFrame: this.sanitizer.bypassSecurityTrustResourceUrl(route.mapsIFrame), // Sanitizar URL
-            imagen: JSON.parse(route.imagen) // Convertir la cadena JSON a un array
-          }));
-          console.log('Rutas obtenidas:', this.routes);
+          this.nParticipantes = data;
+          console.log('Numero de participantes:', this.nParticipantes);
         },
         error => {
-          console.error('Error al obtener las rutas:', error);
+          console.error('Error al obtener los participantes:', error);
+        }
+      );
+
+    this.http.get(`http://localhost/proyectoDamAngular-BACK/public/api/getRoute/${this.routeId}`)
+      .subscribe(
+        (data: any) => {
+          if (data && data.length > 0) {
+            const routeData = data[0]; // Acceder al primer elemento del array data
+            this.routes = {
+              ...routeData,
+              safeMapsIFrame: this.sanitizer.bypassSecurityTrustResourceUrl(routeData.mapsIFrame),
+              imagen: JSON.parse(routeData.imagen)
+            };
+            console.log('Ruta:', this.routes);
+          } else {
+            console.error('La respuesta del servidor no contiene datos válidos.');
+          }
+        },
+        error => {
+          console.error('Error al obtener la ruta:', error);
         }
       );
   }
@@ -98,6 +124,20 @@ export class ShowRouteComponent implements OnInit {
     );
   }
 
+  esMasTarde(fecha: string, hora: string): boolean {
+    const fechaHora = new Date(`${fecha}T${hora}`);
+    const ahora = new Date();
+    return fechaHora < ahora;
+  }
+
+  mostrarMensaje() {
+    this.mensaje = 'No puedes apuntarte a esta ruta porque la fecha y hora ya han pasado.';
+  }
+
+  ocultarMensaje() {
+    this.mensaje = null;
+  }
+
   like(ruta_id: number) {
     console.log(ruta_id);
 
@@ -141,11 +181,7 @@ export class ShowRouteComponent implements OnInit {
       withCredentials: true // Habilita el envío de credenciales
     }).subscribe(
       (data: any) => {
-        const updatedRoute = this.routes.find(route => route.id === ruta_id);
-        if (updatedRoute) {
-          updatedRoute.likes = data.likes;
-          this.cdr.detectChanges(); // Forzar la detección de cambios
-        }
+        //Mostrar con el resultado de la peticion los likes actualizados
       },
       error => {
         console.error('Error al actualizar los likes de la ruta:', error);
@@ -153,23 +189,5 @@ export class ShowRouteComponent implements OnInit {
     );
   }
 
-  navigateToRouteDetails(routeId: number) {
-    this.router.navigate(['/showRouteDetails', routeId]);
-  }
-
-  // Nueva función para comparar fechas
-  esMasTarde(fecha: string, hora: string): boolean {
-    const fechaHora = new Date(`${fecha}T${hora}`);
-    const ahora = new Date();
-    return fechaHora < ahora;
-  }
-
-  mostrarMensaje() {
-    this.mensaje = 'No puedes apuntarte a esta ruta porque la fecha y hora ya han pasado.';
-  }
-
-  ocultarMensaje() {
-    this.mensaje = null;
-  }
 
 }

@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
-export default class RegisterComponent {
+export class RegisterComponent {
 
   constructor(private http: HttpClient, private router: Router) { }
 

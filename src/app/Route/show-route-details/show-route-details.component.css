@@ -1,0 +1,10 @@
+.mensaje-advertencia {
+    background-color: #ffcccc; /* Fondo rojo claro */
+    color: #cc0000; /* Texto rojo oscuro */
+    border: 1px solid #cc0000; /* Borde rojo */
+    padding: 10px;
+    margin-top: 10px; /* Espacio superior */
+    border-radius: 4px; /* Bordes redondeados */
+    max-width: 300px; /* Ancho máximo */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+  }

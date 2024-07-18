@@ -11,7 +11,7 @@ import { AuthService } from '../Services/auth.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export default class LoginComponent {
+export class LoginComponent {
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
   formData = {

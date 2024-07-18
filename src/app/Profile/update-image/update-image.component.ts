@@ -9,7 +9,7 @@ import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http'
   templateUrl: './update-image.component.html',
   styleUrl: './update-image.component.css'
 })
-export default class UpdateImageComponent {
+export class UpdateImageComponent {
   profile_image = "";
 
   constructor(private http: HttpClient) { }
