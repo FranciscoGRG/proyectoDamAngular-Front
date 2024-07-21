@@ -1,21 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'; // Importar
-import { CommonModule } from '@angular/common'; // Importar CommonModule
+import { DomSanitizer } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../../Services/auth.service';
+import { CarruselComponent } from '../../carrusel/carrusel.component';
 
 @Component({
   selector: 'app-show-route-details',
   standalone: true,
-  imports: [HttpClientModule, CommonModule],
+  imports: [HttpClientModule, CommonModule, CarruselComponent],
   templateUrl: './show-route-details.component.html',
-  styleUrl: './show-route-details.component.css'
+  styleUrls: ['./show-route-details.component.css'],
 })
 export class ShowRouteDetailsComponent implements OnInit {
 
   routeId: number | null = null;
   mensaje: string | null = null;
+  mensaje2: string | null = null;
+  esParticipante: boolean = false;
 
   nParticipantes: number = 0;
   routes: any = {};
@@ -30,17 +33,16 @@ export class ShowRouteDetailsComponent implements OnInit {
       } else {
         this.routeId = null; // O maneja el caso en que el parámetro es null
       }
-      this.fetchRoutes()
+      this.fetchRoutes();
+      this.participante();
     });
   }
-
 
   fetchRoutes() {
     this.http.get(`http://localhost/proyectoDamAngular-BACK/public/api/numberParticipant/${this.routeId}`)
       .subscribe(
         (data: any) => {
           this.nParticipantes = data;
-          console.log('Numero de participantes:', this.nParticipantes);
         },
         error => {
           console.error('Error al obtener los participantes:', error);
@@ -51,13 +53,12 @@ export class ShowRouteDetailsComponent implements OnInit {
       .subscribe(
         (data: any) => {
           if (data && data.length > 0) {
-            const routeData = data[0]; // Acceder al primer elemento del array data
+            const routeData = data[0];
             this.routes = {
               ...routeData,
               safeMapsIFrame: this.sanitizer.bypassSecurityTrustResourceUrl(routeData.mapsIFrame),
               imagen: JSON.parse(routeData.imagen)
             };
-            console.log('Ruta:', this.routes);
           } else {
             console.error('La respuesta del servidor no contiene datos válidos.');
           }
@@ -68,10 +69,30 @@ export class ShowRouteDetailsComponent implements OnInit {
       );
   }
 
-  participar(ruta_id: number, ruta_name: string, ruta_fecha: number, ruta_hora: number) {
+  participante() {
+    const token = this.authService.getToken();
 
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    this.http.get(`http://localhost/proyectoDamAngular-BACK/public/api/esParticipante/${this.routeId}`, {
+      headers: headers,
+      withCredentials: true // Habilita el envío de credenciales
+    }).subscribe(
+      (response: any) => {
+        this.esParticipante = response;
+      },
+      error => {
+        console.error('Error al comprobar si es participante:', error);
+      }
+    );
+  }
+
+  participar(ruta_id: number, ruta_name: string, ruta_fecha: number, ruta_hora: number) {
     let fechaStr: string = ruta_fecha.toString();
     let horaStr: string = ruta_hora.toString();
+    let botonParticipar = document.getElementById('botonParticipar');
 
     if (this.esMasTarde(fechaStr, horaStr)) {
       this.mensaje = 'La fecha y hora de esta ruta ya han pasado.';
@@ -93,16 +114,14 @@ export class ShowRouteDetailsComponent implements OnInit {
       withCredentials: true // Habilita el envío de credenciales
     }).subscribe(
       (registerResponse: any) => {
-        console.log('Te has inscrito a la ruta correctamente:', registerResponse);
-        alert('Te has inscrito a la ruta correctamente')
+        alert('Te has inscrito a la ruta correctamente');
+        botonParticipar?.setAttribute('disabled', 'true');
       },
       error => {
         console.error('Error al inscribirse en la ruta:', error);
-        alert('Error al inscribirse en la ruta')
+        alert('Error al inscribirse en la ruta');
       }
     );
-
-    // console.log(ruta_name, ruta_fecha, ruta_hora)
 
     // Peticion para enviar el correo
     this.http.post('http://localhost/proyectoDamAngular-BACK/public/api/confirmar', {
@@ -114,12 +133,11 @@ export class ShowRouteDetailsComponent implements OnInit {
       withCredentials: true // Habilita el envío de credenciales
     }).subscribe(
       (registerResponse: any) => {
-        alert('Correo enviado')
-        console.log('Respuesta correo:', registerResponse);
+        alert('Correo enviado');
       },
       error => {
         console.error('Error al inscribirse en la ruta:', error);
-        alert('Error al inscribirse en la ruta')
+        alert('Error al inscribirse en la ruta');
       }
     );
   }
@@ -134,13 +152,19 @@ export class ShowRouteDetailsComponent implements OnInit {
     this.mensaje = 'No puedes apuntarte a esta ruta porque la fecha y hora ya han pasado.';
   }
 
+  mostrarMensaje2() {
+    this.mensaje2 = 'No puedes apuntarte a esta ruta porque ya estas inscrito.';
+  }
+
   ocultarMensaje() {
     this.mensaje = null;
   }
 
-  like(ruta_id: number) {
-    console.log(ruta_id);
+  ocultarMensaje2() {
+    this.mensaje2 = null;
+  }
 
+  like(ruta_id: number) {
     const storedUser = localStorage.getItem('user');
     const token = storedUser ? JSON.parse(storedUser) : null;
 
@@ -148,7 +172,6 @@ export class ShowRouteDetailsComponent implements OnInit {
       'Authorization': `Bearer ${token}`
     });
 
-    // Dar like a la ruta
     this.http.post('http://localhost/proyectoDamAngular-BACK/public/api/darLike', {
       ruta_id: ruta_id
     }, {
@@ -156,7 +179,6 @@ export class ShowRouteDetailsComponent implements OnInit {
       withCredentials: true // Habilita el envío de credenciales
     }).subscribe(
       (registerResponse: any) => {
-        console.log(registerResponse);
         alert('Le has dado like');
         this.updateRouteLikes(ruta_id); // Llamar a la función para actualizar los likes
       },
@@ -168,13 +190,11 @@ export class ShowRouteDetailsComponent implements OnInit {
   }
 
   updateRouteLikes(ruta_id: number) {
-
-    const token = this.authService.getToken()
+    const token = this.authService.getToken();
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-
 
     this.http.get(`http://localhost/proyectoDamAngular-BACK/public/api/updatedLike/${ruta_id}`, {
       headers: headers,
@@ -188,6 +208,4 @@ export class ShowRouteDetailsComponent implements OnInit {
       }
     );
   }
-
-
 }

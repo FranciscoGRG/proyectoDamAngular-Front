@@ -39,16 +39,35 @@
       <div *ngIf="mensaje && esMasTarde(routes.fecha, routes.hora)" class="mensaje-advertencia">
         {{ mensaje }}
       </div>
-      <button class="bg-slate-400 text-white px-4 py-2 rounded-md mr-2"
+      <button id="participar" class="bg-slate-400 text-white px-4 py-2 rounded-md mr-2"
         (click)="participar(routes.id, routes.title, routes.fecha, routes.hora)"
-        [disabled]="esMasTarde(routes.fecha, routes.hora)"
-        (mouseenter)="esMasTarde(routes.fecha, routes.hora) ? mostrarMensaje() : null"
-        (mouseleave)="ocultarMensaje()">Participar</button>
+        [disabled]="esMasTarde(routes.fecha, routes.hora) || esParticipante"
+        (mouseenter)="esMasTarde(routes.fecha, routes.hora) ? mostrarMensaje() : mostrarMensaje2()"
+        (mouseleave)="ocultarMensaje()" (mouseleave)="ocultarMensaje2()">Participar</button>
 
 
       <button class="bg-red-500 text-white px-4 py-2 rounded-md" (click)="like(routes.id)">
         <i class="far fa-thumbs-up mr-1"></i> Like
       </button>
     </div>
+
+    <!-- Boton deshabilitado si ya estas inscrito -->
+    <!-- <div class="flex justify-end mt-6">
+      <div *ngIf="mensaje2 && esParticipante" class="mensaje-advertencia2">
+        {{ mensaje2 }}
+      </div>
+      <button class="bg-slate-400 text-white px-4 py-2 rounded-md mr-2"
+        (click)="participar(routes.id, routes.title, routes.fecha, routes.hora)"
+        [disabled]="esMasTarde(routes.fecha, routes.hora)"
+        (mouseenter)="esMasTarde(routes.fecha, routes.hora) ? mostrarMensaje2() : null"
+        (mouseleave)="ocultarMensaje2()">Participar</button>
+    </div> -->
+
   </div>
 </div>
+
+<h1 class="text-3xl font-bold underline mb-4 text-center">
+  Imágenes
+</h1>
+
+<app-carrusel [images]="routes.imagen"></app-carrusel>
