@@ -1,0 +1,4 @@
+.custom-swiper-button-prev,
+.custom-swiper-button-next {
+  z-index: 50;
+}

@@ -165,28 +165,29 @@ export class ShowRouteDetailsComponent implements OnInit {
   }
 
   like(ruta_id: number) {
-    const storedUser = localStorage.getItem('user');
-    const token = storedUser ? JSON.parse(storedUser) : null;
+    // const storedUser = localStorage.getItem('user');
+    // const token = storedUser ? JSON.parse(storedUser) : null;
 
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
+    // const headers = new HttpHeaders({
+    //   'Authorization': `Bearer ${token}`
+    // });
 
-    this.http.post('http://localhost/proyectoDamAngular-BACK/public/api/darLike', {
-      ruta_id: ruta_id
-    }, {
-      headers: headers,
-      withCredentials: true // Habilita el envío de credenciales
-    }).subscribe(
-      (registerResponse: any) => {
-        alert('Le has dado like');
-        this.updateRouteLikes(ruta_id); // Llamar a la función para actualizar los likes
-      },
-      error => {
-        console.error('Error al dar like:', error);
-        alert('Error al dar like');
-      }
-    );
+    // this.http.post('http://localhost/proyectoDamAngular-BACK/public/api/darLike', {
+    //   ruta_id: ruta_id
+    // }, {
+    //   headers: headers,
+    //   withCredentials: true // Habilita el envío de credenciales
+    // }).subscribe(
+    //   (registerResponse: any) => {
+    //     alert('Le has dado like');
+    //   },
+    //   error => {
+    //     console.error('Error al dar like:', error);
+    //     alert('Error al dar like');
+    //   }
+    // );
+
+    this.authService.updateLikes(ruta_id, this.http)
   }
 
   updateRouteLikes(ruta_id: number) {

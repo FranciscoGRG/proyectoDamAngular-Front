@@ -50,6 +50,17 @@
         <i class="far fa-thumbs-up mr-1"></i> Like
       </button>
     </div>
+  </div>
+</div>
+
+<h1 class="text-3xl font-bold underline mb-4 text-center">
+  Imágenes
+</h1>
+
+<app-carrusel [images]="routes.imagen"></app-carrusel>
+
+
+
 
     <!-- Boton deshabilitado si ya estas inscrito -->
     <!-- <div class="flex justify-end mt-6">
@@ -62,12 +73,3 @@
         (mouseenter)="esMasTarde(routes.fecha, routes.hora) ? mostrarMensaje2() : null"
         (mouseleave)="ocultarMensaje2()">Participar</button>
     </div> -->
-
-  </div>
-</div>
-
-<h1 class="text-3xl font-bold underline mb-4 text-center">
-  Imágenes
-</h1>
-
-<app-carrusel [images]="routes.imagen"></app-carrusel>
