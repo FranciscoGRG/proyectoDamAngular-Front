@@ -36,7 +36,14 @@ export class ShowRouteDetailsComponent implements OnInit {
       this.fetchRoutes();
       this.participante();
     });
+
+    // Suscribirse al observable de likes
+    this.authService.likes$.subscribe(newLikes => {
+      this.routes.likes = newLikes;
+    });
   }
+
+
 
   fetchRoutes() {
     this.http.get(`http://localhost/proyectoDamAngular-BACK/public/api/numberParticipant/${this.routeId}`)
@@ -99,8 +106,7 @@ export class ShowRouteDetailsComponent implements OnInit {
       return;
     }
 
-    const storedUser = localStorage.getItem('user');
-    const token = storedUser ? JSON.parse(storedUser) : null;
+    const token = this.authService.getToken();
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -164,48 +170,27 @@ export class ShowRouteDetailsComponent implements OnInit {
     this.mensaje2 = null;
   }
 
-  like(ruta_id: number) {
-    // const storedUser = localStorage.getItem('user');
-    // const token = storedUser ? JSON.parse(storedUser) : null;
-
-    // const headers = new HttpHeaders({
-    //   'Authorization': `Bearer ${token}`
-    // });
-
-    // this.http.post('http://localhost/proyectoDamAngular-BACK/public/api/darLike', {
-    //   ruta_id: ruta_id
-    // }, {
-    //   headers: headers,
-    //   withCredentials: true // Habilita el envío de credenciales
-    // }).subscribe(
-    //   (registerResponse: any) => {
-    //     alert('Le has dado like');
-    //   },
-    //   error => {
-    //     console.error('Error al dar like:', error);
-    //     alert('Error al dar like');
-    //   }
-    // );
-
-    this.authService.updateLikes(ruta_id, this.http)
-  }
-
-  updateRouteLikes(ruta_id: number) {
+  darlike(ruta_id: number) {
     const token = this.authService.getToken();
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
 
-    this.http.get(`http://localhost/proyectoDamAngular-BACK/public/api/updatedLike/${ruta_id}`, {
+    this.http.post('http://localhost/proyectoDamAngular-BACK/public/api/darLike', {
+      ruta_id: ruta_id
+    }, {
       headers: headers,
       withCredentials: true // Habilita el envío de credenciales
     }).subscribe(
-      (data: any) => {
-        //Mostrar con el resultado de la peticion los likes actualizados
+      (registerResponse: any) => {
+        alert('Le has dado like');
+        console.log(registerResponse.likes)
+        this.authService.updateLikes(registerResponse.likes);
       },
       error => {
-        console.error('Error al actualizar los likes de la ruta:', error);
+        console.error('Error al dar like:', error);
+        alert('Error al dar like');
       }
     );
   }
