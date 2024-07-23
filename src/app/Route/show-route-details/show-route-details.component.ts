@@ -18,7 +18,11 @@ export class ShowRouteDetailsComponent implements OnInit {
   routeId: number | null = null;
   mensaje: string | null = null;
   mensaje2: string | null = null;
+  mensajeLike: string | null = null;
+  mensajeParticipante: string | null = null;
+
   esParticipante: boolean = false;
+  like: boolean = false;
 
   nParticipantes: number = 0;
   routes: any = {};
@@ -35,11 +39,22 @@ export class ShowRouteDetailsComponent implements OnInit {
       }
       this.fetchRoutes();
       this.participante();
+      this.tieneLike();
     });
 
     // Suscribirse al observable de likes
     this.authService.likes$.subscribe(newLikes => {
       this.routes.likes = newLikes;
+    });
+
+    // Suscribirse al observable de like
+    this.authService.like$.subscribe(newLike => {
+      this.like = newLike;
+    });
+
+    // Suscribirse al observable de participante
+    this.authService.participante$.subscribe(newLike => {
+      this.esParticipante = newLike;
     });
   }
 
@@ -88,10 +103,30 @@ export class ShowRouteDetailsComponent implements OnInit {
       withCredentials: true // Habilita el envío de credenciales
     }).subscribe(
       (response: any) => {
-        this.esParticipante = response;
+        this.esParticipante = response.esParticipante;
       },
       error => {
         console.error('Error al comprobar si es participante:', error);
+      }
+    );
+  }
+
+  tieneLike() {
+    const token = this.authService.getToken();
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    this.http.get(`http://localhost/proyectoDamAngular-BACK/public/api/tieneLike/${this.routeId}`, {
+      headers: headers,
+      withCredentials: true // Habilita el envío de credenciales
+    }).subscribe(
+      (response: any) => {
+        this.like = response.tieneLike;
+      },
+      error => {
+        console.error('Error al comprobar si tiene like:', error);
       }
     );
   }
@@ -121,7 +156,7 @@ export class ShowRouteDetailsComponent implements OnInit {
     }).subscribe(
       (registerResponse: any) => {
         alert('Te has inscrito a la ruta correctamente');
-        botonParticipar?.setAttribute('disabled', 'true');
+        this.authService.actualizarParticipante(true)
       },
       error => {
         console.error('Error al inscribirse en la ruta:', error);
@@ -162,12 +197,28 @@ export class ShowRouteDetailsComponent implements OnInit {
     this.mensaje2 = 'No puedes apuntarte a esta ruta porque ya estas inscrito.';
   }
 
+  mostrarMensajeLike() {
+    this.mensajeLike = 'Ya le has dado Like.';
+  }
+
+  mostrarMensajeParticipante() {
+    this.mensajeParticipante = 'Ya estas inscrito.';
+  }
+
   ocultarMensaje() {
     this.mensaje = null;
   }
 
   ocultarMensaje2() {
     this.mensaje2 = null;
+  }
+
+  ocultarMensajeLike() {
+    this.mensajeLike = null;
+  }
+
+  ocultarMensajeParticipante() {
+    this.mensajeParticipante = null;
   }
 
   darlike(ruta_id: number) {
@@ -187,6 +238,7 @@ export class ShowRouteDetailsComponent implements OnInit {
         alert('Le has dado like');
         console.log(registerResponse.likes)
         this.authService.updateLikes(registerResponse.likes);
+        this.authService.actualizarLike(true);
       },
       error => {
         console.error('Error al dar like:', error);

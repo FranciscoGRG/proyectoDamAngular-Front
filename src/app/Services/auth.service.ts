@@ -10,6 +10,12 @@ export class AuthService {
   private likesSubject = new BehaviorSubject<number>(0);
   likes$ = this.likesSubject.asObservable();
 
+  private likeSubject = new BehaviorSubject<boolean>(false);
+  like$ = this.likeSubject.asObservable();
+
+  private participanteSubject = new BehaviorSubject<boolean>(false);
+  participante$ = this.participanteSubject.asObservable();
+
   get isLoggedIn$() {
     return this.loggedIn.asObservable();
   }
@@ -39,5 +45,13 @@ export class AuthService {
 
   updateLikes(newLikes: number) {
     this.likesSubject.next(newLikes);
+  }
+
+  actualizarLike(nuevoLike: boolean){
+    this.likeSubject.next(nuevoLike);
+  }
+
+  actualizarParticipante(nuevoParticipante: boolean){
+    this.participanteSubject.next(nuevoParticipante);
   }
 }

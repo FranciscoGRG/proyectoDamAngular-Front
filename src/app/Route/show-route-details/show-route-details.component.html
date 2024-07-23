@@ -39,14 +39,23 @@
       <div *ngIf="mensaje && esMasTarde(routes.fecha, routes.hora)" class="mensaje-advertencia">
         {{ mensaje }}
       </div>
+
+      <div *ngIf="mensajeParticipante && esParticipante" class="mensaje-advertencia">
+        {{ mensajeParticipante }}
+      </div>
+
       <button id="participar" class="bg-slate-400 text-white px-4 py-2 rounded-md mr-2"
         (click)="participar(routes.id, routes.title, routes.fecha, routes.hora)"
         [disabled]="esMasTarde(routes.fecha, routes.hora) || esParticipante"
         (mouseenter)="esMasTarde(routes.fecha, routes.hora) ? mostrarMensaje() : mostrarMensaje2()"
-        (mouseleave)="ocultarMensaje()" (mouseleave)="ocultarMensaje2()">Participar</button>
+        (mouseenter)="mostrarMensajeParticipante()"
+        (mouseleave)="ocultarMensaje()" (mouseleave)="ocultarMensaje2()" (mouseleave)="ocultarMensajeParticipante()">Participar</button>
 
-
-      <button class="bg-red-500 text-white px-4 py-2 rounded-md" (click)="darlike(routes.id)">
+      <div *ngIf="mensajeLike && like" class="mensaje-advertencia">
+        {{ mensajeLike }}
+      </div>
+      <button [disabled]="like" (mouseenter)="mostrarMensajeLike()" (mouseleave)="ocultarMensajeLike()"
+        class="bg-red-500 text-white px-4 py-2 rounded-md" (click)="darlike(routes.id)">
         <i class="far fa-thumbs-up mr-1"></i> Like
       </button>
     </div>
@@ -62,8 +71,8 @@
 
 
 
-    <!-- Boton deshabilitado si ya estas inscrito -->
-    <!-- <div class="flex justify-end mt-6">
+<!-- Boton deshabilitado si ya estas inscrito -->
+<!-- <div class="flex justify-end mt-6">
       <div *ngIf="mensaje2 && esParticipante" class="mensaje-advertencia2">
         {{ mensaje2 }}
       </div>
