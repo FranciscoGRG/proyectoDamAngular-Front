@@ -38,3 +38,44 @@
 .custom-swiper-button-next {
   z-index: 50;
 }
+
+#likeEmoji {
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+#likeEmoji fa-icon {
+  color: red;
+  font-size: 24px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.liked {
+  animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.liked-icon {
+  color: red;
+}
+
+.unliked-icon {
+  color: transparent;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: red;
+}

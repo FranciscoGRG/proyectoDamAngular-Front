@@ -44,4 +44,28 @@ export class ShowCreatedrouteComponent implements OnInit {
         }
       );
   }
+
+  deleteRoute(routeId: number) {
+    const storedUser = localStorage.getItem('user');
+    const token = storedUser ? JSON.parse(storedUser) : null;
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    this.http.delete(`http://localhost/proyectoDamAngular-BACK/public/api/deleteRoute/${routeId}`, {
+      headers: headers,
+      withCredentials: true,
+    }).subscribe(
+      (response: any) => {
+        console.log('Ruta borrada:', response);
+        alert("Ruta borrada correctamente")
+
+      },
+      error => {
+        console.error('Error al borrar la ruta:', error);
+        alert("No se ha podido borrar la ruta")
+      }
+    );
+  }
 }

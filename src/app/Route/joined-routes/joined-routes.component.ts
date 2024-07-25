@@ -14,6 +14,7 @@ export class JoinedRoutesComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   routes: any[] = [];
+  mensaje: string = "Ya ha finalizado la ruta"
 
   ngOnInit() {
     this.fetchRoutes();
@@ -30,5 +31,13 @@ export class JoinedRoutesComponent implements OnInit {
           console.error('Error al obtener las rutas:', error);
         }
       );
+  }
+
+  esMasTarde(fecha: string, hora: string): boolean {
+    const fechaHora = new Date(`${fecha}T${hora}`);
+    const ahora = new Date();
+
+    console.log(fechaHora < ahora)
+    return fechaHora < ahora;
   }
 }

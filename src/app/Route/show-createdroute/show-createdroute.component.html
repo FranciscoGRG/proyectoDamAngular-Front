@@ -33,6 +33,10 @@
            {{ route.mapsIFrame }}
           </div>
         </div>
+
+        <div>
+          <button (click)="deleteRoute(route.id)">Eliminar ruta</button>
+        </div>
       </li>
     </ul>
     <ng-template #noRoutes>

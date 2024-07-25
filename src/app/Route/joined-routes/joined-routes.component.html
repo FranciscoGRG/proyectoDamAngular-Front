@@ -3,6 +3,11 @@
     <ul *ngIf="routes.length > 0; else noRoutes" class="space-y-6">
         <li *ngFor="let route of routes" class="bg-white shadow-md rounded-lg p-6 flex flex-col md:flex-row">
             <div class="md:w-2/3">
+
+                <div *ngIf="esMasTarde(route.fecha, route.hora) && mensaje">
+                    <h1>Esta ruta ya ha finalizado</h1>
+                </div>
+
                 <h3 class="text-xl font-semibold">{{ route.title }}</h3>
                 <p class="text-gray-700">{{ route.description }}</p>
                 <div class="mt-4">

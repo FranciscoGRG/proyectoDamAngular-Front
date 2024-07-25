@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-route',
@@ -11,7 +12,7 @@ import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http'
 })
 export class CreateRouteComponent {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   formData = {
     title: '',
@@ -72,11 +73,17 @@ export class CreateRouteComponent {
       (response: any) => {
         console.log('Ruta creada:', response);
         alert("Ruta creada correctamente")
+        this.navigateToRouteDetails(response.route)
+        
       },
       error => {
         console.error('Error al crear la ruta:', error);
         alert("No se ha podido crear la ruta")
       }
     );
+  }
+
+  navigateToRouteDetails(routeId: number) {
+    this.router.navigate(['/showRouteDetails/', routeId]);
   }
 }

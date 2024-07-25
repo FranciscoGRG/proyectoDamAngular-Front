@@ -5,11 +5,14 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../Services/auth.service';
 import { CarruselComponent } from '../../carrusel/carrusel.component';
+import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';  // Corazón lleno
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons'; // Corazón vacío
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-show-route-details',
   standalone: true,
-  imports: [HttpClientModule, CommonModule, CarruselComponent],
+  imports: [HttpClientModule, CommonModule, CarruselComponent, FontAwesomeModule],
   templateUrl: './show-route-details.component.html',
   styleUrls: ['./show-route-details.component.css'],
 })
@@ -18,8 +21,11 @@ export class ShowRouteDetailsComponent implements OnInit {
   routeId: number | null = null;
   mensaje: string | null = null;
   mensaje2: string | null = null;
-  mensajeLike: string | null = null;
   mensajeParticipante: string | null = null;
+  
+  fasHeart = fasHeart;
+  farHeart = farHeart;
+  animationClass = '';
 
   esParticipante: boolean = false;
   like: boolean = false;
@@ -197,10 +203,6 @@ export class ShowRouteDetailsComponent implements OnInit {
     this.mensaje2 = 'No puedes apuntarte a esta ruta porque ya estas inscrito.';
   }
 
-  mostrarMensajeLike() {
-    this.mensajeLike = 'Ya le has dado Like.';
-  }
-
   mostrarMensajeParticipante() {
     this.mensajeParticipante = 'Ya estas inscrito.';
   }
@@ -213,15 +215,12 @@ export class ShowRouteDetailsComponent implements OnInit {
     this.mensaje2 = null;
   }
 
-  ocultarMensajeLike() {
-    this.mensajeLike = null;
-  }
-
   ocultarMensajeParticipante() {
     this.mensajeParticipante = null;
   }
 
   darlike(ruta_id: number) {
+
     const token = this.authService.getToken();
 
     const headers = new HttpHeaders({
@@ -239,11 +238,21 @@ export class ShowRouteDetailsComponent implements OnInit {
         console.log(registerResponse.likes)
         this.authService.updateLikes(registerResponse.likes);
         this.authService.actualizarLike(true);
+       
+        this.animationClass = this.like ? 'animate-unlike' : 'animate-like';
+
+        setTimeout(() => {
+          this.animationClass = '';
+        }, 300);  // Debe coincidir con la duración de la animación
       },
       error => {
         console.error('Error al dar like:', error);
         alert('Error al dar like');
       }
     );
+  }
+
+  estaLogeado() {
+    return this.authService.isLoggedIn();
   }
 }
