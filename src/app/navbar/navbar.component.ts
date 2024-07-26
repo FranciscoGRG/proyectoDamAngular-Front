@@ -74,6 +74,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/joinedRoutes'])
   }
 
+  navigateToUpdateImage() {
+    this.router.navigate(['/updateProfileImage'])
+  }
+
   fetchUser() {
 
     const token = this.authService.getToken();

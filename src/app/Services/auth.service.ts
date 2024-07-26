@@ -16,6 +16,9 @@ export class AuthService {
   private participanteSubject = new BehaviorSubject<boolean>(false);
   participante$ = this.participanteSubject.asObservable();
 
+  private rutasCreadasSubject = new BehaviorSubject<[]>([]);
+  rutas$ = this.rutasCreadasSubject.asObservable();
+
   get isLoggedIn$() {
     return this.loggedIn.asObservable();
   }
@@ -43,15 +46,21 @@ export class AuthService {
     return token;
   }
 
+  //Sube los likes
   updateLikes(newLikes: number) {
     this.likesSubject.next(newLikes);
   }
 
+  //Marca que tiene like la ruta
   actualizarLike(nuevoLike: boolean){
     this.likeSubject.next(nuevoLike);
   }
 
   actualizarParticipante(nuevoParticipante: boolean){
     this.participanteSubject.next(nuevoParticipante);
+  }
+
+  actualizarRutas(rutas: []){
+    this.rutasCreadasSubject.next(rutas);
   }
 }

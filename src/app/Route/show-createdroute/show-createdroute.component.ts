@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common'; // Importar CommonModule
+import { AuthService } from '../../Services/auth.service';
 
 @Component({
   selector: 'app-show-createdroute',
@@ -13,18 +14,19 @@ export class ShowCreatedrouteComponent implements OnInit {
 
   routes: any[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   ngOnInit() {
     this.fetchRoutes();
+
+    this.authService.rutas$.subscribe(newRutas => {
+      this.routes = newRutas;
+    });
   }
 
   fetchRoutes() {
 
-    const storedUser = localStorage.getItem('user');
-    const token = storedUser ? JSON.parse(storedUser) : null;
-
-    console.log(token);
+    const token = this.authService.getToken();
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -58,8 +60,9 @@ export class ShowCreatedrouteComponent implements OnInit {
       withCredentials: true,
     }).subscribe(
       (response: any) => {
-        console.log('Ruta borrada:', response);
         alert("Ruta borrada correctamente")
+        console.log("rutas: ", response)
+        this.authService.actualizarRutas(response)
 
       },
       error => {

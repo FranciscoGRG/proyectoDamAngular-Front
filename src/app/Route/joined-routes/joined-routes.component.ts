@@ -21,7 +21,7 @@ export class JoinedRoutesComponent implements OnInit {
   }
 
   fetchRoutes() {
-    this.http.get('http://localhost/proyectoDamAngular-BACK/public/api/getRoutes')
+    this.http.get('http://localhost/proyectoDamAngular-BACK/public/api/joinedRoutes')
       .subscribe(
         (data: any) => {
           this.routes = data;

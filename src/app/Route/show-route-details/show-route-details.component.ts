@@ -22,7 +22,7 @@ export class ShowRouteDetailsComponent implements OnInit {
   mensaje: string | null = null;
   mensaje2: string | null = null;
   mensajeParticipante: string | null = null;
-  
+
   fasHeart = fasHeart;
   farHeart = farHeart;
   animationClass = '';
@@ -140,7 +140,6 @@ export class ShowRouteDetailsComponent implements OnInit {
   participar(ruta_id: number, ruta_name: string, ruta_fecha: number, ruta_hora: number) {
     let fechaStr: string = ruta_fecha.toString();
     let horaStr: string = ruta_hora.toString();
-    let botonParticipar = document.getElementById('botonParticipar');
 
     if (this.esMasTarde(fechaStr, horaStr)) {
       this.mensaje = 'La fecha y hora de esta ruta ya han pasado.';
@@ -227,29 +226,56 @@ export class ShowRouteDetailsComponent implements OnInit {
       'Authorization': `Bearer ${token}`
     });
 
-    this.http.post('http://localhost/proyectoDamAngular-BACK/public/api/darLike', {
-      ruta_id: ruta_id
-    }, {
-      headers: headers,
-      withCredentials: true // Habilita el envío de credenciales
-    }).subscribe(
-      (registerResponse: any) => {
-        alert('Le has dado like');
-        console.log(registerResponse.likes)
-        this.authService.updateLikes(registerResponse.likes);
-        this.authService.actualizarLike(true);
-       
-        this.animationClass = this.like ? 'animate-unlike' : 'animate-like';
+    if (this.like === false) {
+      this.http.post('http://localhost/proyectoDamAngular-BACK/public/api/darLike', {
+        ruta_id: ruta_id
+      }, {
+        headers: headers,
+        withCredentials: true // Habilita el envío de credenciales
+      }).subscribe(
+        (registerResponse: any) => {
+          alert('Le has dado like');
+          console.log(registerResponse.likes)
+          this.authService.updateLikes(registerResponse.likes);
+          if (this.like === true) {
+            this.authService.actualizarLike(false);
+          } else { this.authService.actualizarLike(true); }
 
-        setTimeout(() => {
-          this.animationClass = '';
-        }, 300);  // Debe coincidir con la duración de la animación
-      },
-      error => {
-        console.error('Error al dar like:', error);
-        alert('Error al dar like');
-      }
-    );
+          this.animationClass = this.like ? 'animate-unlike' : 'animate-like';
+          console.log(this.like)
+
+          setTimeout(() => {
+            this.animationClass = '';
+          }, 300);  // Debe coincidir con la duración de la animación
+        },
+        error => {
+          console.error('Error al dar like:', error);
+          alert('Error al dar like');
+        }
+      );
+    } else {
+      this.http.post('http://localhost/proyectoDamAngular-BACK/public/api/quitarLike', {
+        ruta_id: ruta_id
+      }, {
+        headers: headers,
+        withCredentials: true // Habilita el envío de credenciales
+      }).subscribe(
+        (registerResponse: any) => {
+          alert('Le has quitado el like');
+          this.authService.updateLikes(registerResponse.likes);
+          this.authService.actualizarLike(false);
+          this.animationClass = this.like ? 'animate-unlike' : 'animate-like';
+
+          setTimeout(() => {
+            this.animationClass = '';
+          }, 300);  // Debe coincidir con la duración de la animación
+        },
+        error => {
+          console.error('Error al quitar like:', error);
+          alert('Error al quitar like');
+        }
+      );
+    }
   }
 
   estaLogeado() {

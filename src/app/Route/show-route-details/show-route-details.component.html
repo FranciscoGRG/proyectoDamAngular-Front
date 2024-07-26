@@ -57,7 +57,7 @@
           <i class="far fa-thumbs-up mr-1"></i> Like
         </button> -->
 
-        <button [disabled]="like" id="likeEmoji" (click)="darlike(routes.id)" [class.liked]="like">
+        <button id="likeEmoji" (click)="darlike(routes.id)" [class.liked]="like">
           <span [ngClass]="{'liked-icon': like, 'unliked-icon': !like}">
             <fa-icon [icon]="like ? fasHeart : farHeart"></fa-icon>
           </span>
