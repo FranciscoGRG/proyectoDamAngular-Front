@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common'; // Importar CommonModule
 import { AuthService } from '../../Services/auth.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-show-createdroute',
@@ -14,7 +15,7 @@ export class ShowCreatedrouteComponent implements OnInit {
 
   routes: any[] = [];
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.fetchRoutes();
@@ -38,13 +39,22 @@ export class ShowCreatedrouteComponent implements OnInit {
     })
       .subscribe(
         (data: any) => {
-          this.routes = data;
-          console.log('Rutas obtenidas:', this.routes);
+          if (data && Array.isArray(data)) {
+            this.routes = data.map((route: any) => ({
+              ...route,
+              safeMapsIFrame: this.sanitizer.bypassSecurityTrustResourceUrl(route.mapsIFrame),
+              imagen: JSON.parse(route.imagen)
+            }));
+            console.log('Rutas obtenidas y procesadas:', this.routes);
+          } else {
+            console.error('La respuesta del servidor no contiene datos válidos.');
+          }
         },
         error => {
           console.error('Error al obtener las rutas:', error);
         }
       );
+
   }
 
   deleteRoute(routeId: number) {
