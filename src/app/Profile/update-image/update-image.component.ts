@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
+import { CommonModule } from '@angular/common'; // Importar CommonModule
 
 @Component({
   selector: 'app-update-image',
   standalone: true,
-  imports: [FormsModule, HttpClientModule],
+  imports: [FormsModule, HttpClientModule, CommonModule],
   templateUrl: './update-image.component.html',
   styleUrl: './update-image.component.css'
 })
 export class UpdateImageComponent {
   profile_image = "";
+  imagePreview: string | ArrayBuffer | null = null;
 
   constructor(private http: HttpClient) { }
 
@@ -19,6 +21,7 @@ export class UpdateImageComponent {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
+        this.imagePreview = reader.result;
         this.profile_image = (reader.result as string).split(',')[1]; // Remove the "data:image/png;base64," part
       };
       reader.readAsDataURL(file);
@@ -47,7 +50,6 @@ export class UpdateImageComponent {
       withCredentials: true // Habilita el envío de credenciales
     }).subscribe(
       (response: any) => {
-        console.log('Imagen actualizada:', response);
         alert("Imagen actualizada correctamente")
       },
       error => {

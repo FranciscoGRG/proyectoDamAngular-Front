@@ -34,7 +34,6 @@ export class ShowRouteComponent implements OnInit {
             safeMapsIFrame: this.sanitizer.bypassSecurityTrustResourceUrl(route.mapsIFrame), // Sanitizar URL
             imagen: JSON.parse(route.imagen) // Convertir la cadena JSON a un array
           }));
-          console.log('Rutas obtenidas:', this.routes);
         },
         error => {
           console.error('Error al obtener las rutas:', error);
@@ -67,7 +66,6 @@ export class ShowRouteComponent implements OnInit {
       withCredentials: true // Habilita el envío de credenciales
     }).subscribe(
       (registerResponse: any) => {
-        console.log('Te has inscrito a la ruta correctamente:', registerResponse);
         alert('Te has inscrito a la ruta correctamente')
       },
       error => {
@@ -75,8 +73,6 @@ export class ShowRouteComponent implements OnInit {
         alert('Error al inscribirse en la ruta')
       }
     );
-
-    // console.log(ruta_name, ruta_fecha, ruta_hora)
 
     // Peticion para enviar el correo
     this.http.post('http://localhost/proyectoDamAngular-BACK/public/api/confirmar', {
@@ -89,7 +85,6 @@ export class ShowRouteComponent implements OnInit {
     }).subscribe(
       (registerResponse: any) => {
         alert('Correo enviado')
-        console.log('Respuesta correo:', registerResponse);
       },
       error => {
         console.error('Error al inscribirse en la ruta:', error);
@@ -99,8 +94,6 @@ export class ShowRouteComponent implements OnInit {
   }
 
   like(ruta_id: number) {
-    console.log(ruta_id);
-
     const storedUser = localStorage.getItem('user');
     const token = storedUser ? JSON.parse(storedUser) : null;
 
@@ -116,7 +109,6 @@ export class ShowRouteComponent implements OnInit {
       withCredentials: true // Habilita el envío de credenciales
     }).subscribe(
       (registerResponse: any) => {
-        console.log(registerResponse);
         alert('Le has dado like');
         this.updateRouteLikes(ruta_id); // Llamar a la función para actualizar los likes
       },

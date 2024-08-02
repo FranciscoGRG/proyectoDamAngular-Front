@@ -32,6 +32,7 @@ export class ShowRouteDetailsComponent implements OnInit {
 
   nParticipantes: number = 0;
   routes: any = {};
+  user: any = {};
 
   constructor(private route: ActivatedRoute, private http: HttpClient, private sanitizer: DomSanitizer, private authService: AuthService) { }
 
@@ -87,6 +88,7 @@ export class ShowRouteDetailsComponent implements OnInit {
               safeMapsIFrame: this.sanitizer.bypassSecurityTrustResourceUrl(routeData.mapsIFrame),
               imagen: JSON.parse(routeData.imagen)
             };
+            this.fetchUser(this.routes.user_id)
           } else {
             console.error('La respuesta del servidor no contiene datos válidos.');
           }
@@ -235,14 +237,12 @@ export class ShowRouteDetailsComponent implements OnInit {
       }).subscribe(
         (registerResponse: any) => {
           alert('Le has dado like');
-          console.log(registerResponse.likes)
           this.authService.updateLikes(registerResponse.likes);
           if (this.like === true) {
             this.authService.actualizarLike(false);
           } else { this.authService.actualizarLike(true); }
 
           this.animationClass = this.like ? 'animate-unlike' : 'animate-like';
-          console.log(this.like)
 
           setTimeout(() => {
             this.animationClass = '';
@@ -280,5 +280,14 @@ export class ShowRouteDetailsComponent implements OnInit {
 
   estaLogeado() {
     return this.authService.isLoggedIn();
+  }
+
+  fetchUser(userId: number) {
+    this.http.get(`http://localhost/proyectoDamAngular-BACK/public/api/getUser/${userId}`)
+      .subscribe(
+        (registerResponse: any) => {
+          this.user = registerResponse[0];
+        }
+      );
   }
 }

@@ -43,7 +43,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   mostrarMenu() {
     this.menuVisible = !this.menuVisible;
-    console.log(this.menuVisible);
   }
 
   navigateToCreateRoute() {
@@ -82,8 +81,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     const token = this.authService.getToken();
 
-    console.log(token);
-
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -95,7 +92,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
       .subscribe(
         (data: any) => {
           this.user = data;
-          // console.log('User obtenido', this.user);
         },
         error => {
           console.error('Error al obtener el user:', error);

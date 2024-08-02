@@ -47,6 +47,16 @@ export const routes: Routes = [
         children: []
     },
     {
+        path: 'editRoute/:id',
+        loadComponent: () => import('./Route/edit-route/edit-route.component').then(m => m.EditRouteComponent),
+        children: []
+    },
+    {
+        path: 'pruebaCreate',
+        loadComponent: () => import('./Route/prueba-create/prueba-create.component').then(m => m.PruebaCreateComponent),
+        children: []
+    },
+    {
         path: '**',
         redirectTo: '/dashboard',
         pathMatch: 'full'

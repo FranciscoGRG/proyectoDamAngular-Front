@@ -3,6 +3,8 @@
     <br>
     <input type="file" name="imagen" id="imagen" required (change)="onFileChange($event)">
     <br>
+    <img *ngIf="imagePreview" [src]="imagePreview" alt="Vista previa" style="max-width: 200px; max-height: 200px;">
+    <br>
     <button type="button" (click)="actualizarImagen()" class="bg-rose-500 rounded-md">
         Actualizar imagen
     </button>

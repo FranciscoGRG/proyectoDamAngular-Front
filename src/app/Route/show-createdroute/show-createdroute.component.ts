@@ -3,6 +3,7 @@ import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http'
 import { CommonModule } from '@angular/common'; // Importar CommonModule
 import { AuthService } from '../../Services/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-show-createdroute',
@@ -15,7 +16,7 @@ export class ShowCreatedrouteComponent implements OnInit {
 
   routes: any[] = [];
 
-  constructor(private http: HttpClient, private authService: AuthService, private sanitizer: DomSanitizer) { }
+  constructor(private router: Router, private http: HttpClient, private authService: AuthService, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.fetchRoutes();
@@ -45,7 +46,6 @@ export class ShowCreatedrouteComponent implements OnInit {
               safeMapsIFrame: this.sanitizer.bypassSecurityTrustResourceUrl(route.mapsIFrame),
               imagen: JSON.parse(route.imagen)
             }));
-            console.log('Rutas obtenidas y procesadas:', this.routes);
           } else {
             console.error('La respuesta del servidor no contiene datos válidos.');
           }
@@ -71,7 +71,6 @@ export class ShowCreatedrouteComponent implements OnInit {
     }).subscribe(
       (response: any) => {
         alert("Ruta borrada correctamente")
-        console.log("rutas: ", response)
         this.authService.actualizarRutas(response)
 
       },
@@ -80,5 +79,9 @@ export class ShowCreatedrouteComponent implements OnInit {
         alert("No se ha podido borrar la ruta")
       }
     );
+  }
+
+  navigateToEditRoute(routeId: number) {
+    this.router.navigate(['editRoute',routeId ])
   }
 }

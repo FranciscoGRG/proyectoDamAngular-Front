@@ -26,7 +26,6 @@ export class RegisterComponent {
 
 
   register() {
-    console.log('Form Data:', this.formData);
 
     // Registro del usuario
     this.http.post('http://localhost/proyectoDamAngular-BACK/public/api/register', {
@@ -35,7 +34,6 @@ export class RegisterComponent {
       password: this.formData.password,
     }).subscribe(
       (registerResponse: any) => {
-        console.log('Usuario registrado:', registerResponse);
 
         // Una vez registrado, intenta iniciar sesión automáticamente
         this.login();
@@ -53,7 +51,6 @@ export class RegisterComponent {
       password: this.formData.password,
     }).subscribe(
       (loginResponse: any) => {
-        console.log('Usuario logueado:', loginResponse);
 
         // Guarda el token en localStorage
         localStorage.setItem('user', JSON.stringify(loginResponse.token));

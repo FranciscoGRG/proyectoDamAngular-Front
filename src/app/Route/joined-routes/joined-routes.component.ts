@@ -42,7 +42,6 @@ export class JoinedRoutesComponent implements OnInit {
               safeMapsIFrame: this.sanitizer.bypassSecurityTrustResourceUrl(route.mapsIFrame),
               imagen: JSON.parse(route.imagen)
             }));
-            console.log('Rutas obtenidas y procesadas:', this.routes);
           } else {
             console.error('La respuesta del servidor no contiene datos válidos.');
           }

@@ -1,5 +1,7 @@
 <div class="container mx-auto px-4 py-8">
   <div *ngIf="routes" class="bg-white shadow-md rounded-lg p-6">
+    <h2>Creador: {{user.name}}</h2>
+    <img class="w-[200px] h-[200px]"  [src]="'http://localhost/proyectoDamAngular-BACK/public/storage/profile_images/' + user.profile_image" alt="Foto perfil creador">
     <h2 class="text-3xl font-bold mb-6">Detalles de la Ruta: {{ routes.title }}</h2>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -17,6 +19,7 @@
           <p><strong>Fecha:</strong> {{ routes.fecha }}</p>
           <p><strong>Hora:</strong> {{ routes.hora }}</p>
           <p><strong>Likes:</strong> {{ routes.likes }}</p>
+          <p><strong>Nº Participantes:</strong>  {{nParticipantes}}</p>
         </div>
 
         <div class="mb-4">

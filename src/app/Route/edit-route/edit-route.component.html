@@ -1,1 +1,123 @@
-<p>edit-route works!</p>
+<!-- <div class="container mx-auto px-4 py-8">
+    <h2 class="text-3xl font-bold mb-6 text-center">Edita esta ruta</h2>
+    <ul class="space-y-6">
+        <li class="bg-white shadow-md rounded-lg p-6 flex flex-col md:flex-row">
+            <div class="md:w-2/3">
+                <h3 class="text-xl font-semibold">{{ routes.title }}</h3>
+                <p class="text-gray-700">{{ routes.description }}</p>
+                <div class="mt-4">
+                    <strong>Distancia:</strong> {{ routes.distance }} km
+                </div>
+                <div>
+                    <strong>Desnivel:</strong> {{ routes.unevenness }} m
+                </div>
+                <div>
+                    <strong>Dificultad:</strong> {{ routes.difficulty }}
+                </div>
+                <div class="mt-4">
+                    <strong>Ubicación:</strong> {{ routes.location }}
+                </div>
+                <div class="mt-4">
+                    <strong>Fecha:</strong> {{ routes.fecha }}
+                </div>
+                <div>
+                    <strong>Hora:</strong> {{ routes.hora }}
+                </div>
+                <div class="mt-4">
+                    <strong>Categoría:</strong> {{ routes.category }}
+                </div>
+            </div>
+            <div class="md:w-1/3 mt-4 md:mt-0 md:ml-6">
+                <img *ngFor="let img of routes.imagen" [src]="'http://localhost/proyectoDamAngular-BACK/public/' + img"
+                    alt="Imagen de la ruta" class="rounded-lg">
+                <div class="mt-4">
+                    <iframe [src]="routes.safeMapsIFrame" width="100%" height="400" style="border:0;" allowfullscreen=""
+                        loading="lazy"></iframe>
+                </div>
+            </div>
+        </li>
+    </ul>
+
+</div> -->
+
+<form #editRouteForm="ngForm" class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg grid grid-cols-2 gap-6">
+    <div class="col-span-2">
+      <label for="title" class="block text-sm font-medium text-gray-700">Título:</label>
+      <input id="title" name="title" required [(ngModel)]="formData.title" type="text"
+        class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+    </div>
+  
+    <div class="col-span-2">
+      <label for="description" class="block text-sm font-medium text-gray-700">Descripción:</label>
+      <textarea id="description" name="description" required [(ngModel)]="formData.description"
+        class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+    </div>
+  
+    <div>
+      <label for="distance" class="block text-sm font-medium text-gray-700">Distancia:</label>
+      <input id="distance" name="distance" required [(ngModel)]="formData.distance" type="number"
+        class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+    </div>
+  
+    <div>
+      <label for="unevenness" class="block text-sm font-medium text-gray-700">Desnivel:</label>
+      <input id="unevenness" name="unevenness" required [(ngModel)]="formData.unevenness" type="number"
+        class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+    </div>
+  
+    <div>
+      <label for="difficulty" class="block text-sm font-medium text-gray-700">Dificultad:</label>
+      <select id="difficulty" name="difficulty" required [(ngModel)]="formData.difficulty"
+        class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+        <option value="Principiante">Principiante</option>
+        <option value="Intermedio">Intermedio</option>
+        <option value="Experto">Experto</option>
+      </select>
+    </div>
+  
+    <div>
+      <label for="mapsIFrame" class="block text-sm font-medium text-gray-700">Maps IFrame:</label>
+      <input id="mapsIFrame" name="mapsIFrame" required [(ngModel)]="formData.mapsIFrame" type="text"
+        class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+    </div>
+  
+    <div>
+      <label for="location" class="block text-sm font-medium text-gray-700">Localización:</label>
+      <input id="location" name="location" required [(ngModel)]="formData.location" type="text"
+        class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+    </div>
+  
+    <div>
+      <label for="imagen" class="block text-sm font-medium text-gray-700">Imagenes:</label>
+      <input id="imagen" name="imagen" required [(ngModel)]="formData.imagenes" type="file" multiple
+        class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+    </div>
+  
+    <div>
+      <label for="fecha" class="block text-sm font-medium text-gray-700">Fecha:</label>
+      <input id="fecha" name="fecha" required [(ngModel)]="formData.fecha" type="date"
+        class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+    </div>
+  
+    <div>
+      <label for="hora" class="block text-sm font-medium text-gray-700">Hora:</label>
+      <input id="hora" name="hora" required [(ngModel)]="formData.hora" type="time"
+        class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+    </div>
+  
+    <div class="col-span-2">
+      <label for="category" class="block text-sm font-medium text-gray-700">Categoría:</label>
+      <select id="category" name="category" required [(ngModel)]="formData.category"
+        class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+        <option value="Carretera">Carretera</option>
+        <option value="Montaña">Montaña</option>
+        <option value="Trial">Trial</option>
+        <option value="Cicloturismo">Cicloturismo</option>
+      </select>
+    </div>
+  
+    <div class="col-span-2">
+      <button type="button" (click)="editRoute()"
+        class="w-full py-2 px-4 bg-indigo-600 text-white font-medium rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Submit</button>
+    </div>
+  </form>

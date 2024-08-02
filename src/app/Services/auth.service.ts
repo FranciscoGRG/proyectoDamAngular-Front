@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { ToastService } from 'angular-toastify';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+
+  constructor(private toastService: ToastService) { }
 
   private loggedIn = new BehaviorSubject<boolean>(this.isLoggedIn());
   private likesSubject = new BehaviorSubject<number>(0);
@@ -18,6 +21,9 @@ export class AuthService {
 
   private rutasCreadasSubject = new BehaviorSubject<[]>([]);
   rutas$ = this.rutasCreadasSubject.asObservable();
+
+  private nuevaImagenSubject = new BehaviorSubject<string>('');
+  imagen$ = this.nuevaImagenSubject.asObservable();
 
   get isLoggedIn$() {
     return this.loggedIn.asObservable();
@@ -62,5 +68,9 @@ export class AuthService {
 
   actualizarRutas(rutas: []){
     this.rutasCreadasSubject.next(rutas);
+  }
+
+  actualizarImagen(nuevaImagen: string){
+    this.nuevaImagenSubject.next(nuevaImagen);
   }
 }

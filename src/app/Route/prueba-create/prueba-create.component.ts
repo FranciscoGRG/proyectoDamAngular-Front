@@ -2,19 +2,23 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { ToastService, AngularToastifyModule } from 'angular-toastify'; 
+import { CommonModule } from '@angular/common'; // Importar CommonModule
 
 @Component({
-  selector: 'app-create-route',
+  selector: 'app-prueba-create',
   standalone: true,
-  imports: [FormsModule, HttpClientModule, AngularToastifyModule],
-  templateUrl: './create-route.component.html',
-  providers: [ToastService],
-  styleUrls: ['./create-route.component.css']
+  imports: [FormsModule, HttpClientModule, CommonModule],
+  templateUrl: './prueba-create.component.html',
+  styleUrl: './prueba-create.component.css'
 })
-export class CreateRouteComponent {
+export class PruebaCreateComponent {
 
-  constructor(private http: HttpClient, private router: Router, private _toastService: ToastService) { }
+  numeroPregunta: number = 0;
+  totalPreguntas: number;
+
+  constructor(private http: HttpClient, private router: Router) { 
+    this.totalPreguntas = 11; // Número total de preguntas en el formulario
+  }
 
   formData = {
     title: '',
@@ -60,11 +64,10 @@ export class CreateRouteComponent {
     formData.append('hora', this.formData.hora);
     formData.append('category', this.formData.category);
 
-    // Seleccionar el elemento de input de archivos
-    const inputElement = document.getElementById('imagen') as HTMLInputElement;
-    if (inputElement && inputElement.files) {
-      Array.from(inputElement.files).forEach((file, index) => {
-        formData.append(`imagenes[${index}]`, file, file.name);
+    // Añadir archivos a FormData
+    if (this.formData.imagenes.length > 0) {
+      Array.from(this.formData.imagenes).forEach((file: File) => {
+        formData.append('imagenes[]', file, file.name);
       });
     }
 
@@ -73,13 +76,12 @@ export class CreateRouteComponent {
       withCredentials: true // Habilita el envío de credenciales
     }).subscribe(
       (response: any) => {
-        this._toastService.success('Ruta creada correctamente');
+        alert("Ruta creada correctamente");
         this.navigateToRouteDetails(response.route)
-        
       },
       error => {
         console.error('Error al crear la ruta:', error);
-        alert("No se ha podido crear la ruta")
+        alert("No se ha podido crear la ruta");
       }
     );
   }
@@ -88,5 +90,22 @@ export class CreateRouteComponent {
     this.router.navigate(['/showRouteDetails/', routeId]);
   }
 
+  siguientePregunta() {
+    if (this.numeroPregunta < this.totalPreguntas - 1) {
+      this.numeroPregunta++;
+    }
+  }
+
+  preguntaAnterior() {
+    if (this.numeroPregunta > 0) {
+      this.numeroPregunta--;
+    }
+  }
+
+  onFileChange(event: any) {
+    if (event.target.files && event.target.files.length > 0) {
+      this.formData.imagenes = Array.from(event.target.files);
+    }
+  }
 
 }

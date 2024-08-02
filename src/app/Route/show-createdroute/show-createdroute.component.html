@@ -39,6 +39,9 @@
         <div>
           <button (click)="deleteRoute(route.id)">Eliminar ruta</button>
         </div>
+        <div>
+          <button (click)="navigateToEditRoute(route.id)">Editar ruta</button>
+        </div>
       </li>
     </ul>
     <ng-template #noRoutes>
