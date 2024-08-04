@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Importar CommonModule
 import { AuthService } from '../Services/auth.service';
@@ -13,6 +13,8 @@ import { Subscription } from 'rxjs';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+
+  @ViewChild('menuDropdown') menuDropdown!: ElementRef;
 
   constructor(private router: Router, private authService: AuthService, private http: HttpClient) { }
 
@@ -41,7 +43,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/']); // Redirige a la página de inicio
   }
 
-  mostrarMenu() {
+  toggleMenu(event: MouseEvent) {
+    event.stopPropagation();
     this.menuVisible = !this.menuVisible;
   }
 
@@ -77,6 +80,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/updateProfileImage'])
   }
 
+  navigateToLikedRoutes() {
+    this.router.navigate(['/likedRoutes'])
+  }
+
   fetchUser() {
 
     const token = this.authService.getToken();
@@ -99,4 +106,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
       );
   }
 
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (this.menuVisible && this.menuDropdown && !this.menuDropdown.nativeElement.contains(event.target)) {
+      this.menuVisible = false;
+    }
+  }
 }

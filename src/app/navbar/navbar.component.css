@@ -1,0 +1,24 @@
+/* Asegúrate de que el menú desplegable se posicione sobre el contenido con z-index y position */
+.absolute {
+    position: absolute;
+}
+
+.right-full {
+    right: 100%; /* Posiciona el menú a la izquierda del botón */
+}
+
+.mr-4 {
+    margin-right: 1rem; /* Espacio entre el menú y el botón */
+}
+
+.mt-2 {
+    margin-top: 0.5rem; /* Ajusta según sea necesario */
+}
+
+.w-48 {
+    width: 12rem; /* Ajusta según sea necesario */
+}
+
+.z-50 {
+    z-index: 50;
+}

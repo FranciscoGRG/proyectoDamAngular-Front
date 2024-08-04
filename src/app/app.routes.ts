@@ -57,6 +57,11 @@ export const routes: Routes = [
         children: []
     },
     {
+        path: 'likedRoutes',
+        loadComponent: () => import('./Route/liked-routes/liked-routes.component').then(m => m.LikedRoutesComponent),
+        children: []
+    },
+    {
         path: '**',
         redirectTo: '/dashboard',
         pathMatch: 'full'
