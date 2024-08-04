@@ -8,12 +8,15 @@ import { CarruselComponent } from '../../carrusel/carrusel.component';
 import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';  // Corazón lleno
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons'; // Corazón vacío
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NotificationService } from '../../Services/notification.service';
+import { ToastService, AngularToastifyModule } from 'angular-toastify'; 
 
 @Component({
   selector: 'app-show-route-details',
   standalone: true,
-  imports: [HttpClientModule, CommonModule, CarruselComponent, FontAwesomeModule],
+  imports: [HttpClientModule, CommonModule, CarruselComponent, FontAwesomeModule, AngularToastifyModule],
   templateUrl: './show-route-details.component.html',
+  providers: [ToastService],
   styleUrls: ['./show-route-details.component.css'],
 })
 export class ShowRouteDetailsComponent implements OnInit {
@@ -34,9 +37,15 @@ export class ShowRouteDetailsComponent implements OnInit {
   routes: any = {};
   user: any = {};
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, private sanitizer: DomSanitizer, private authService: AuthService) { }
+  constructor(private notificationService: NotificationService, private route: ActivatedRoute, private http: HttpClient, private sanitizer: DomSanitizer, private authService: AuthService) { }
 
   ngOnInit(): void {
+
+    const message = this.notificationService.getTemporaryMessage();
+    if (message) {
+      this.notificationService.showSuccess(message);
+    }
+
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
       if (idParam !== null) {
@@ -162,7 +171,8 @@ export class ShowRouteDetailsComponent implements OnInit {
       withCredentials: true // Habilita el envío de credenciales
     }).subscribe(
       (registerResponse: any) => {
-        alert('Te has inscrito a la ruta correctamente');
+       
+        this.notificationService.showSuccess('Te has inscrito a la ruta correctamente') 
         this.authService.actualizarParticipante(true)
       },
       error => {
@@ -181,7 +191,7 @@ export class ShowRouteDetailsComponent implements OnInit {
       withCredentials: true // Habilita el envío de credenciales
     }).subscribe(
       (registerResponse: any) => {
-        alert('Correo enviado');
+        // alert('Correo enviado');
       },
       error => {
         console.error('Error al inscribirse en la ruta:', error);
@@ -236,7 +246,8 @@ export class ShowRouteDetailsComponent implements OnInit {
         withCredentials: true // Habilita el envío de credenciales
       }).subscribe(
         (registerResponse: any) => {
-          alert('Le has dado like');
+          //Quitar notificacion?
+          this.notificationService.showSuccess('Le has dado like') 
           this.authService.updateLikes(registerResponse.likes);
           if (this.like === true) {
             this.authService.actualizarLike(false);
@@ -261,7 +272,8 @@ export class ShowRouteDetailsComponent implements OnInit {
         withCredentials: true // Habilita el envío de credenciales
       }).subscribe(
         (registerResponse: any) => {
-          alert('Le has quitado el like');
+          //Quitar notificacion?
+          this.notificationService.showSuccess('Le has quitado el like') 
           this.authService.updateLikes(registerResponse.likes);
           this.authService.actualizarLike(false);
           this.animationClass = this.like ? 'animate-unlike' : 'animate-like';

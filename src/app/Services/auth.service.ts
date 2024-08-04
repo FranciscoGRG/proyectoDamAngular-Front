@@ -7,8 +7,6 @@ import { ToastService } from 'angular-toastify';
 })
 export class AuthService {
 
-  constructor(private toastService: ToastService) { }
-
   private loggedIn = new BehaviorSubject<boolean>(this.isLoggedIn());
   private likesSubject = new BehaviorSubject<number>(0);
   likes$ = this.likesSubject.asObservable();
@@ -58,19 +56,19 @@ export class AuthService {
   }
 
   //Marca que tiene like la ruta
-  actualizarLike(nuevoLike: boolean){
+  actualizarLike(nuevoLike: boolean) {
     this.likeSubject.next(nuevoLike);
   }
 
-  actualizarParticipante(nuevoParticipante: boolean){
+  actualizarParticipante(nuevoParticipante: boolean) {
     this.participanteSubject.next(nuevoParticipante);
   }
 
-  actualizarRutas(rutas: []){
+  actualizarRutas(rutas: []) {
     this.rutasCreadasSubject.next(rutas);
   }
 
-  actualizarImagen(nuevaImagen: string){
+  actualizarImagen(nuevaImagen: string) {
     this.nuevaImagenSubject.next(nuevaImagen);
   }
 }

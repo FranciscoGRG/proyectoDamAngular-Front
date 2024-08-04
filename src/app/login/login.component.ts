@@ -4,6 +4,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from '../Services/auth.service';
 import { ToastService, AngularToastifyModule } from 'angular-toastify';
+import { NotificationService } from '../Services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ import { ToastService, AngularToastifyModule } from 'angular-toastify';
 })
 export class LoginComponent {
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private _toastService: ToastService) { }
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private _toastService: ToastService, private notificationService: NotificationService ) { }
   formData = {
     email: '',
     password: '',
@@ -33,7 +34,7 @@ export class LoginComponent {
       (loginResponse: any) => {
         console.log('Login response:', loginResponse);
         this.authService.logIn(loginResponse.token);
-        this.addSuccessToast();
+        this.notificationService.setTemporaryMessage('Inicio de sesión exitoso');
         this.router.navigate(['/createRoute']);
       },
       error => {

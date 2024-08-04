@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastService, AngularToastifyModule } from 'angular-toastify'; 
+import { NotificationService } from '../../Services/notification.service';
 
 @Component({
   selector: 'app-create-route',
@@ -12,9 +13,16 @@ import { ToastService, AngularToastifyModule } from 'angular-toastify';
   providers: [ToastService],
   styleUrls: ['./create-route.component.css']
 })
-export class CreateRouteComponent {
+export class CreateRouteComponent implements OnInit {
 
-  constructor(private http: HttpClient, private router: Router, private _toastService: ToastService) { }
+  ngOnInit() {
+    const message = this.notificationService.getTemporaryMessage();
+    if (message) {
+      this.notificationService.showSuccess(message);
+    }
+  }
+
+  constructor(private http: HttpClient, private router: Router, private notificationService: NotificationService) { }
 
   formData = {
     title: '',
@@ -73,13 +81,15 @@ export class CreateRouteComponent {
       withCredentials: true // Habilita el envío de credenciales
     }).subscribe(
       (response: any) => {
-        this._toastService.success('Ruta creada correctamente');
+       
+        this.notificationService.setTemporaryMessage('Ruta creada correctamente');
+
         this.navigateToRouteDetails(response.route)
         
       },
       error => {
         console.error('Error al crear la ruta:', error);
-        alert("No se ha podido crear la ruta")
+        this.notificationService.showError('Error al crear la ruta');
       }
     );
   }

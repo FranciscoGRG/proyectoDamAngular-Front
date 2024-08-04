@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Importar CommonModule
+import { NotificationService } from '../../Services/notification.service';
 
 @Component({
   selector: 'app-prueba-create',
@@ -16,7 +17,7 @@ export class PruebaCreateComponent {
   numeroPregunta: number = 0;
   totalPreguntas: number;
 
-  constructor(private http: HttpClient, private router: Router) { 
+  constructor(private http: HttpClient, private router: Router, private notificationService: NotificationService) { 
     this.totalPreguntas = 11; // Número total de preguntas en el formulario
   }
 
@@ -76,7 +77,7 @@ export class PruebaCreateComponent {
       withCredentials: true // Habilita el envío de credenciales
     }).subscribe(
       (response: any) => {
-        alert("Ruta creada correctamente");
+        this.notificationService.setTemporaryMessage('Ruta creada correctamente');
         this.navigateToRouteDetails(response.route)
       },
       error => {
