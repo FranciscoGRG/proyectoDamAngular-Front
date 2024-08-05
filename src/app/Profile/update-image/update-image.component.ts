@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common'; // Importar CommonModule
+import { AuthService } from '../../Services/auth.service';
 import { NotificationService } from '../../Services/notification.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class UpdateImageComponent {
   profile_image = "";
   imagePreview: string | ArrayBuffer | null = null;
 
-  constructor(private http: HttpClient, private notificationService: NotificationService) { }
+  constructor(private http: HttpClient, private notificationService: NotificationService, private authService: AuthService) { }
 
   onFileChange(event: any) {
     const file = event.target.files[0];
@@ -51,11 +52,10 @@ export class UpdateImageComponent {
       withCredentials: true // Habilita el envío de credenciales
     }).subscribe(
       (response: any) => {
-        // alert("Imagen actualizada correctamente")
         this.notificationService.showSuccess("Imagen actualizada correctamente");
+        this.authService.actualizarImagen(response.profileImage);
       },
       error => {
-        // console.error('Error al actualizar la imagen:', error);
         this.notificationService.showError("Error al actualizar la imagen");
       }
     );

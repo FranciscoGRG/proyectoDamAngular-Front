@@ -32,6 +32,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.user = null;
       }
     });
+
+    // Suscribirse al observable de imagenes
+    this.authService.imagen$.subscribe(newImage => {
+      this.user.profile_image = newImage;
+    });
+
   }
 
   ngOnDestroy(): void {

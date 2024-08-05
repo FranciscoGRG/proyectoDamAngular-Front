@@ -1,30 +1,20 @@
-<form #createRouteForm="ngForm" class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg grid grid-cols-2 gap-6">
-  <div class="col-span-2">
-    <label for="title" class="block text-sm font-medium text-gray-700">Título:</label>
+<form #createRouteForm="ngForm"
+  class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-2 gap-6">
+
+  <!-- Grupo de preguntas Basicas -->
+  <div class="col-span-1 md:col-span-2 flex flex-col items-center justify-center" *ngIf="numeroPregunta === 0">
+    <img class="w-40 h-40 rounded-full" src="./assets/bicicleta.jpg" alt="">
+    <h1 class="text-3xl font-bold">Datos básicos</h1>
+  </div>
+
+  <div class="col-span-1" *ngIf="numeroPregunta === 0">
+    <label for="title" class="block text-sm font-medium text-gray-700 mt-4">Título:</label>
     <input id="title" name="title" required [(ngModel)]="formData.title" type="text"
       class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
   </div>
 
-  <div class="col-span-2">
-    <label for="description" class="block text-sm font-medium text-gray-700">Descripción:</label>
-    <textarea id="description" name="description" required [(ngModel)]="formData.description"
-      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
-  </div>
-
-  <div>
-    <label for="distance" class="block text-sm font-medium text-gray-700">Distancia:</label>
-    <input id="distance" name="distance" required [(ngModel)]="formData.distance" type="number"
-      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-  </div>
-
-  <div>
-    <label for="unevenness" class="block text-sm font-medium text-gray-700">Desnivel:</label>
-    <input id="unevenness" name="unevenness" required [(ngModel)]="formData.unevenness" type="number"
-      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-  </div>
-
-  <div>
-    <label for="difficulty" class="block text-sm font-medium text-gray-700">Dificultad:</label>
+  <div class="col-span-1" *ngIf="numeroPregunta === 0">
+    <label for="difficulty" class="block text-sm font-medium text-gray-700 mt-4">Dificultad:</label>
     <select id="difficulty" name="difficulty" required [(ngModel)]="formData.difficulty"
       class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
       <option value="Principiante">Principiante</option>
@@ -33,38 +23,16 @@
     </select>
   </div>
 
-  <div>
-    <label for="mapsIFrame" class="block text-sm font-medium text-gray-700">Maps IFrame:</label>
-    <input id="mapsIFrame" name="mapsIFrame" required [(ngModel)]="formData.mapsIFrame" type="text"
+  <div class="col-span-1" *ngIf="numeroPregunta === 0">
+    <label for="city" class="block text-sm font-medium text-gray-700 mt-4">Ciudad:</label>
+    <select id="city" name="city" required [(ngModel)]="formData.location"
       class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+      <option *ngFor="let city of ciudades" [value]="city">{{ city }}</option>
+    </select>
   </div>
 
-  <div>
-    <label for="location" class="block text-sm font-medium text-gray-700">Localización:</label>
-    <input id="location" name="location" required [(ngModel)]="formData.location" type="text"
-      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-  </div>
-
-  <div>
-    <label for="imagen" class="block text-sm font-medium text-gray-700">Imagenes:</label>
-    <input id="imagen" name="imagen" required [(ngModel)]="formData.imagenes" type="file" multiple
-      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-  </div>
-
-  <div>
-    <label for="fecha" class="block text-sm font-medium text-gray-700">Fecha:</label>
-    <input id="fecha" name="fecha" required [(ngModel)]="formData.fecha" type="date"
-      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-  </div>
-
-  <div>
-    <label for="hora" class="block text-sm font-medium text-gray-700">Hora:</label>
-    <input id="hora" name="hora" required [(ngModel)]="formData.hora" type="time"
-      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-  </div>
-
-  <div class="col-span-2">
-    <label for="category" class="block text-sm font-medium text-gray-700">Categoría:</label>
+  <div class="col-span-1" *ngIf="numeroPregunta === 0">
+    <label for="category" class="block text-sm font-medium text-gray-700 mt-4">Categoría:</label>
     <select id="category" name="category" required [(ngModel)]="formData.category"
       class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
       <option value="Carretera">Carretera</option>
@@ -74,8 +42,89 @@
     </select>
   </div>
 
-  <div class="col-span-2">
+
+  <!-- Grupo de pregunas Datos Generales -->
+  <div class="col-span-1 md:col-span-2 flex flex-col items-center justify-center" *ngIf="numeroPregunta === 1">
+    <img class="w-40 h-40 rounded-full" src="./assets/montaña.png" alt="">
+    <h1 class="text-3xl font-bold mb-6">Datos generales</h1>
+  </div>
+
+  <div class="col-span-2" *ngIf="numeroPregunta === 1">
+    <label for="description" class="block text-sm font-medium text-gray-700">Descripción:</label>
+    <textarea id="description" name="description" required [(ngModel)]="formData.description"
+      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+  </div>
+
+  <div class="col-span-1" *ngIf="numeroPregunta === 1">
+    <label for="distance" class="block text-sm font-medium text-gray-700 mt-4">Distancia:</label>
+    <input id="distance" name="distance" required [(ngModel)]="formData.distance" type="number"
+      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+  </div>
+
+  <div class="col-span-1" *ngIf="numeroPregunta === 1">
+    <label for="unevenness" class="block text-sm font-medium text-gray-700 mt-4">Desnivel:</label>
+    <input id="unevenness" name="unevenness" required [(ngModel)]="formData.unevenness" type="number"
+      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+  </div>
+
+  <div class="col-span-1" *ngIf="numeroPregunta === 1">
+    <label for="fecha" class="block text-sm font-medium text-gray-700 mt-4">Fecha:</label>
+    <input id="fecha" name="fecha" required [(ngModel)]="formData.fecha" type="date"
+      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+  </div>
+
+  <div class="col-span-1" *ngIf="numeroPregunta === 1">
+    <label for="hora" class="block text-sm font-medium text-gray-700 mt-4">Hora:</label>
+    <input id="hora" name="hora" required [(ngModel)]="formData.hora" type="time"
+      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+  </div>
+
+
+  <!-- Pregunta Mapa -->
+  <div class="col-span-1 md:col-span-2 flex flex-col items-center justify-center" *ngIf="numeroPregunta === 2">
+    <img class="w-40 h-40" src="./assets/mapa.png" alt="">
+    <h1 class="text-3xl font-bold mb-6">Mapa</h1>
+  </div>
+
+  <div class="col-span-2" *ngIf="numeroPregunta === 2">
+    <label for="mapsIFrame" class="block text-sm font-medium text-gray-700">Maps IFrame:</label>
+    <input id="mapsIFrame" name="mapsIFrame" required [(ngModel)]="formData.mapsIFrame" type="text"
+      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+  </div>
+
+
+  <!-- Grupo pregunta Imagenes -->
+  <div class="col-span-1 md:col-span-2 flex flex-col items-center justify-center" *ngIf="numeroPregunta === 3">
+    <img class="w-40 h-40" src="./assets/imagenes.png" alt="">
+    <h1 class="text-3xl font-bold mb-6">Imágenes</h1>
+  </div>
+
+  <div class="col-span-2" *ngIf="numeroPregunta === 3">
+    <label for="imagen" class="block text-sm font-medium text-gray-700">Imágenes:</label>
+    <input id="imagen" name="imagen" type="file" multiple (change)="onFileChange($event)"
+      class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+  </div>
+
+
+  <!-- Botones -->
+  <div class="col-span-1 md:col-span-2 flex justify-between mt-4">
+    <button type="button" (click)="preguntaAnterior()"
+      class="py-2 px-4 bg-gray-300 text-black font-medium rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+      [style.visibility]="numeroPregunta === 0 ? 'hidden' : 'visible'">
+      Anterior
+    </button>
+
+    <button type="button" (click)="siguientePregunta()"
+      class="py-2 px-4 bg-indigo-600 text-white font-medium rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      [style.visibility]="numeroPregunta === totalPreguntas - 1 ? 'hidden' : 'visible'">
+      Siguiente
+    </button>
+  </div>
+
+  <div *ngIf="numeroPregunta === totalPreguntas - 1" class="col-span-1 md:col-span-2 mt-4">
     <button type="button" (click)="createRoute()"
-      class="w-full py-2 px-4 bg-indigo-600 text-white font-medium rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Submit</button>
+      class="w-full py-2 px-4 bg-green-600 text-white font-medium rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+      Crear ruta
+    </button>
   </div>
 </form>

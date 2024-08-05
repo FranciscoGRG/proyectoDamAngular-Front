@@ -17,8 +17,8 @@ export class PruebaCreateComponent {
   numeroPregunta: number = 0;
   totalPreguntas: number;
 
-  constructor(private http: HttpClient, private router: Router, private notificationService: NotificationService) { 
-    this.totalPreguntas = 11; // Número total de preguntas en el formulario
+  constructor(private http: HttpClient, private router: Router, private notificationService: NotificationService) {
+    this.totalPreguntas = 4; // Número total de preguntas en el formulario
   }
 
   formData = {
@@ -34,6 +34,19 @@ export class PruebaCreateComponent {
     hora: '',
     category: '',
   };
+
+  ciudades: string[] = [
+    "Álava", "Albacete", "Alicante", "Almería", "Asturias",
+    "Ávila", "Badajoz", "Baleares", "Barcelona", "Burgos",
+    "Cáceres", "Cádiz", "Cantabria", "Castellón", "Ciudad Real",
+    "Córdoba", "Cuenca", "Gerona", "Granada", "Guadalajara",
+    "Guipúzcoa", "Huelva", "Huesca", "Jaén", "La Coruña",
+    "La Rioja", "Las Palmas", "León", "Lérida", "Lugo",
+    "Madrid", "Málaga", "Murcia", "Navarra", "Orense",
+    "Palencia", "Pontevedra", "Salamanca", "Segovia", "Sevilla",
+    "Soria", "Tarragona", "Santa Cruz de Tenerife", "Teruel", "Toledo",
+    "Valencia", "Valladolid", "Vizcaya", "Zamora", "Zaragoza"
+  ];
 
   createRoute() {
 
