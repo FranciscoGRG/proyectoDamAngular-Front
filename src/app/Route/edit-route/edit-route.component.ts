@@ -92,7 +92,7 @@ export class EditRouteComponent implements OnInit {
       withCredentials: true // Habilita el envío de credenciales
     }).subscribe(
       (response: any) => {
-        // alert("Ruta creada correctamente")
+        console.log(response)
       },
       error => {
         console.error('Error al crear la ruta:', error);
